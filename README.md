@@ -3,7 +3,7 @@ Sparse Modeling Software for Visual Studio
 
 This is a headers-only library of the SPArse Modeling Software written by these guys: http://spams-devel.gforge.inria.fr/
 
-I take no credit for any code written in there. The license of this code is the same as the license at the abovementioned website.
+I take no credit for any code written in there. The license of this code is the same as the license at the abovementioned website (GPLv3).
 
 To use this repo, simply clone it into a solution directory and add the project file into your solution through Visual Studio. Make sure you add references to this project for the projects you want to use this dependency with.
 
