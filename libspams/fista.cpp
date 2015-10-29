@@ -1,8 +1,6 @@
 #include "fista.h"
 
-using namespace FISTA;
-
-regul_t FISTA::regul_from_string(char* regul)
+FISTA::regul_t FISTA::regul_from_string(char* regul)
 {
 	if (strcmp(regul, "l0") == 0) return L0;
 	if (strcmp(regul, "l1") == 0) return L1;
@@ -40,14 +38,14 @@ regul_t FISTA::regul_from_string(char* regul)
 	return INCORRECT_REG;
 }
 
-regul_t regul_from_string(const char* regul)
+FISTA::regul_t FISTA::regul_from_string(const char* regul)
 {
 	for (unsigned int i = 0; i < NBREGUL; i++)
 		if (strcmp(regul, regul_table[i].name) == 0) return regul_table[i].regul;
 	return FISTA::INCORRECT_REG;
 }
 
-loss_t loss_from_string(char* loss)
+FISTA::loss_t FISTA::loss_from_string(char* loss)
 {
 	if (strcmp(loss, "square") == 0) return SQUARE;
 	if (strcmp(loss, "square-missing") == 0) return SQUARE_MISSING;
@@ -60,7 +58,7 @@ loss_t loss_from_string(char* loss)
 	return INCORRECT_LOSS;
 }
 
-void print_loss(const loss_t& loss)
+void FISTA::print_loss(const loss_t& loss)
 {
 	switch (loss) {
 	case SQUARE: cout << "Square loss" << endl; break;
@@ -75,12 +73,12 @@ void print_loss(const loss_t& loss)
 	}
 }
 
-bool loss_for_matrices(const loss_t& loss)
+bool FISTA::loss_for_matrices(const loss_t& loss)
 {
 	return loss == MULTILOG || loss == CUR;
 }
 
-void print_regul(const regul_t& regul)
+void FISTA::print_regul(const regul_t& regul)
 {
 	switch (regul) {
 	case L0: cout << "L0 regularization" << endl; break;
@@ -120,14 +118,14 @@ void print_regul(const regul_t& regul)
 	}
 }
 
-bool regul_for_matrices(const regul_t& regul)
+bool FISTA::regul_for_matrices(const regul_t& regul)
 {
 	return regul == L1L2 || regul == L1LINF || regul == L1L2_L1 || regul == L1LINF_L1
 		|| regul == TREEMULT || regul == GRAPHMULT || regul == L1LINFCR ||
 		regul == TRACE_NORM || regul == RANK;
 }
 
-void regul_error(char *buffer, int bufsize, const char *message)
+void FISTA::regul_error(char *buffer, int bufsize, const char *message)
 {
 	int n1 = strlen(message);
 	int size = n1;
