@@ -13,4 +13,4 @@ If you find and fix any errors feel free to make a pull request. I should respon
 
 TODO: Refactor this code so it produces absolutely no errors.
 
-Currently, linker errors result if you #include <spams.h>, due to some multiple redefinitions caused by global variables in misc.h.
+Currently, linker errors result if you #include spams.h, due to some multiple redefinitions caused by global variables in misc.h.
