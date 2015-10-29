@@ -48,6 +48,28 @@ Timer::~Timer()
 	free(_time2);
 }
 
+// start the time
+void Timer::start()
+{
+	_running = true;
+	gettimeofday(_time1);
+}
+
+// stop the time
+void Timer::stop()
+{
+	gettimeofday(_time2);
+	_running = false;
+	_cumul += static_cast<double>((_time2->tv_sec - (_time1->tv_sec)) * 1000000 + _time2->tv_usec - _time1->tv_usec) / 1000000.0;
+}
+
+// reset the timer
+void Timer::reset()
+{
+	_cumul = 0;
+	gettimeofday(_time1);
+}
+
 // print the elapsed time
 void Timer::printElapsed()
 {

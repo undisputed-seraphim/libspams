@@ -29,8 +29,12 @@ typedef int mwSize;
 #endif
 
 // MIN, MAX macros
+#ifndef MIN
 #define MIN(a,b) (((a) > (b)) ? (b) : (a))
+#endif
+#ifndef MAX
 #define MAX(a,b) (((a) > (b)) ? (a) : (b))
+#endif
 #define SIGN(a) (((a) < 0) ? -1.0 : 1.0)
 #define ABS(a) (((a) < 0) ? -(a) : (a))
 // DEBUG macros
@@ -87,24 +91,11 @@ public:
 	~Timer();
 
 	// start the time
-	void inline start()
-	{
-		_running = true;
-		gettimeofday(_time1);
-	};
+	void inline start();
 	// stop the time
-	void inline stop()
-	{
-		gettimeofday(_time2);
-		_running = false;
-		_cumul += static_cast<double>((_time2->tv_sec - (_time1->tv_sec)) * 1000000 + _time2->tv_usec - _time1->tv_usec) / 1000000.0;
-	};
+	void inline stop();
 	// reset the timer
-	void inline reset()
-	{
-		_cumul = 0;
-		gettimeofday(_time1);
-	};
+	void inline reset();
 	// print the elapsed time
 	void inline printElapsed();
 	// print the elapsed time
