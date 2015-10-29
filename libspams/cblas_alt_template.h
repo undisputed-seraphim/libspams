@@ -1,17 +1,16 @@
-#ifndef CBLAS_ALT_TEMPLATE_H
-#define CBLAS_ALT_TEMPLATE_H
+#pragma once
 
-#ifndef CBLAS_ALT_TEMPLATE
-#define CBLAS_ALCBLAS_ALTT_TEMPLATE
+#include <stddef.h>
+#include "cblas_defvar.h"
 
 //#include <cblas.h>
-#include <stddef.h>
+//#include <stddef.h>
 //#include <blas.h>
 #ifdef small
 #undef small
 #endif
 //#include <lapack.h>
-#include "cblas_defvar.h"
+//#include "cblas_defvar.h"
 
 #ifdef NEW_MATLAB_BLAS
 #define INTT ptrdiff_t
@@ -37,8 +36,7 @@
 #define INTM int
 #endif
 
-
-/// a few static variables for lapack
+// a few static variables for lapack
 static char lower = 'L';
 static char upper = 'u';
 static INTT info = 0;
@@ -48,7 +46,7 @@ static char no = 'N';
 static char reduced = 'S';
 static char allV = 'V';
 
-#ifdef ADD_ATL 
+#ifdef ADD_ATL
 #define dnrm2_ ATL_dnrm2
 #define snrm2_ ATL_snrm2
 #define dcopy_ ATL_dcopy
@@ -134,7 +132,7 @@ static char allV = 'V';
 #define ssyev_ ssyev
 #endif
 
-/// external functions
+// external functions
 //#ifdef HAVE_MKL   // obsolete
 //extern "C" {
 //#endif
@@ -175,46 +173,46 @@ void vsAbs( int n,  float* vecIn, float* vecOut);
 
 
 // INTTerfaces to a few BLAS function, Level 1
-/// INTTerface to cblas_*nrm2
+// INTTerface to cblas_*nrm2
 template <typename T> T inline cblas_nrm2(INTT n, T* X, INTT incX);
-/// INTTerface to cblas_*copy
+// INTTerface to cblas_*copy
 template <typename T> void inline cblas_copy(INTT n, T* X, INTT incX,
 	T* Y, INTT incY);
-/// INTTerface to cblas_*axpy
+// INTTerface to cblas_*axpy
 template <typename T> void inline cblas_axpy(INTT n, T a, T* X,
 	INTT incX, T* Y, INTT incY);
 template <typename T> void inline cblas_axpby(INTT n, T a, T* X,
 	INTT incX, T b, T* Y, INTT incY);
-/// INTTerface to cblas_*scal
+// INTTerface to cblas_*scal
 template <typename T> void inline cblas_scal(INTT n, T a, T* X,
 	INTT incX);
-/// INTTerface to cblas_*asum
+// INTTerface to cblas_*asum
 template <typename T> T inline cblas_asum(INTT n, T* X, INTT incX);
-/// INTTerface to cblas_*adot
+// INTTerface to cblas_*adot
 template <typename T> T inline cblas_dot(INTT n, T* X, INTT incX,
 	T* Y, INTT incY);
-/// interface to cblas_i*amin
+// interface to cblas_i*amin
 template <typename T> INTT inline cblas_iamin(INTT n, T* X, INTT incX);
-/// interface to cblas_i*amax
+// interface to cblas_i*amax
 template <typename T> INTT inline cblas_iamax(INTT n, T* X, INTT incX);
 
 // INTTerfaces to a few BLAS function, Level 2
 
-/// INTTerface to cblas_*gemv
+// INTTerface to cblas_*gemv
 template <typename T> void cblas_gemv(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, INTT M,
 	INTT N, T alpha, T *A, INTT lda, T *X,
 	INTT incX, T beta, T *Y, INTT incY);
-/// INTTerface to cblas_*trmv
+// INTTerface to cblas_*trmv
 template <typename T> void inline cblas_trmv(CBLAS_ORDER order, CBLAS_UPLO Uplo,
 	CBLAS_TRANSPOSE TransA, CBLAS_DIAG Diag, INTT N,
 	T *A, INTT lda, T *X, INTT incX);
-/// INTTerface to cblas_*syr
+// INTTerface to cblas_*syr
 template <typename T> void inline cblas_syr(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, INTT N, T alpha,
 	T *X, INTT incX, T *A, INTT lda);
 
-/// INTTerface to cblas_*symv
+// INTTerface to cblas_*symv
 template <typename T> inline void cblas_symv(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, INTT N,
 	T alpha, T *A, INTT lda, T *X,
@@ -222,22 +220,22 @@ template <typename T> inline void cblas_symv(CBLAS_ORDER order,
 
 
 // INTTerfaces to a few BLAS function, Level 3
-/// INTTerface to cblas_*gemm
+// INTTerface to cblas_*gemm
 template <typename T> void cblas_gemm(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, CBLAS_TRANSPOSE TransB,
 	INTT M, INTT N, INTT K, T alpha,
 	T *A, INTT lda, T *B, INTT ldb,
 	T beta, T *C, INTT ldc);
-/// INTTerface to cblas_*syrk
+// INTTerface to cblas_*syrk
 template <typename T> void cblas_syrk(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, CBLAS_TRANSPOSE Trans, INTT N, INTT K,
 	T alpha, T *A, INTT lda,
 	T beta, T*C, INTT ldc);
-/// INTTerface to cblas_*ger
+// INTTerface to cblas_*ger
 template <typename T> void cblas_ger(CBLAS_ORDER order,
 	INTT M, INTT N, T alpha, T *X, INTT incX,
 	T* Y, INTT incY, T*A, INTT lda);
-/// INTTerface to cblas_*trmm
+// INTTerface to cblas_*trmm
 template <typename T> void cblas_trmm(CBLAS_ORDER order,
 	CBLAS_SIDE Side, CBLAS_UPLO Uplo,
 	CBLAS_TRANSPOSE TransA, CBLAS_DIAG Diag,
@@ -245,36 +243,36 @@ template <typename T> void cblas_trmm(CBLAS_ORDER order,
 	T*A, INTT lda, T *B, INTT ldb);
 
 // interfaces to a few functions from the intel Vector Mathematical Library
-/// INTTerface to v*Sqr
+// INTTerface to v*Sqr
 template <typename T> void vSqrt(INTT n, T* vecIn, T* vecOut);
-/// INTTerface to v*Sqr
+// INTTerface to v*Sqr
 template <typename T> void vInvSqrt(INTT n, T* vecIn, T* vecOut);
-/// INTTerface to v*Sqr
+// INTTerface to v*Sqr
 template <typename T> void vSqr(INTT n, T* vecIn, T* vecOut);
-/// INTTerface to v*Sub
+// INTTerface to v*Sub
 template <typename T> void vSub(INTT n, T* vecIn, T* vecIn2, T* vecOut);
-/// INTTerface to v*Div
+// INTTerface to v*Div
 template <typename T> void vDiv(INTT n, T* vecIn, T* vecIn2, T* vecOut);
-/// INTTerface to v*Exp
+// INTTerface to v*Exp
 template <typename T> void vExp(INTT n, T* vecIn, T* vecOut);
-/// INTTerface to v*Inv
+// INTTerface to v*Inv
 template <typename T> void vInv(INTT n, T* vecIn, T* vecOut);
-/// INTTerface to v*Add
+// INTTerface to v*Add
 template <typename T> void vAdd(INTT n, T* vecIn, T* vecIn2, T* vecOut);
-/// INTTerface to v*Mul
+// INTTerface to v*Mul
 template <typename T> void vMul(INTT n, T* vecIn, T* vecIn2, T* vecOut);
-/// INTTerface to v*Abs
+// INTTerface to v*Abs
 template <typename T> void vAbs(INTT n, T* vecIn, T* vecOut);
 
 // interfaces to a few LAPACK functions
-/// interface to *trtri
+// interface to *trtri
 template <typename T> void trtri(char& uplo, char& diag,
 	INTT n, T * a, INTT lda);
-/// interface to *sytri  // call sytrf
+// interface to *sytri  // call sytrf
 template <typename T> void sytri(char& uplo, INTT n, T* a, INTT lda);
 //, INTT* ipiv,
 //      T* work);
-/// interaface to *lasrt
+// interaface to *lasrt
 template <typename T> void lasrt(char& id, INTT n, T *d);
 //template <typename T> void lasrt2(char& id,  INTT& n, T *d, int* key);
 template <typename T> void gesvd(char& jobu, char& jobvt, INTT m,
@@ -368,49 +366,49 @@ extern "C" {
 }
 
 // Implementations of the INTTerfaces, BLAS Level 1
-/// Implementation of the INTTerface for cblas_dnrm2
+// Implementation of the INTTerface for cblas_dnrm2
 template <> inline double cblas_nrm2<double>(INTT n, double* X,
 	INTT incX)
 {
 	//return cblas_dnrm2(n,X,incX);
 	return dnrm2_(&n, X, &incX);
 };
-/// Implementation of the INTTerface for cblas_snrm2
+// Implementation of the INTTerface for cblas_snrm2
 template <> inline float cblas_nrm2<float>(INTT n, float* X,
 	INTT incX)
 {
 	//return cblas_snrm2(n,X,incX);
 	return snrm2_(&n, X, &incX);
 };
-/// Implementation of the INTTerface for cblas_dcopy
+// Implementation of the INTTerface for cblas_dcopy
 template <> inline void cblas_copy<double>(INTT n, double* X,
 	INTT incX, double* Y, INTT incY)
 {
 	//cblas_dcopy(n,X,incX,Y,incY);
 	dcopy_(&n, X, &incX, Y, &incY);
 };
-/// Implementation of the INTTerface for cblas_scopy
+// Implementation of the INTTerface for cblas_scopy
 template <> inline void cblas_copy<float>(INTT n, float* X, INTT incX,
 	float* Y, INTT incY)
 {
 	//cblas_scopy(n,X,incX,Y,incY);
 	scopy_(&n, X, &incX, Y, &incY);
 };
-/// Implementation of the INTTerface for cblas_scopy
+// Implementation of the INTTerface for cblas_scopy
 template <> inline void cblas_copy<INTM>(INTT n, INTM* X, INTT incX,
 	INTM* Y, INTT incY)
 {
 	for (int i = 0; i < n; ++i)
 		Y[incY*i] = X[incX*i];
 };
-/// Implementation of the INTTerface for cblas_scopy
+// Implementation of the INTTerface for cblas_scopy
 /*template <> inline void cblas_copy<long long int>( INTT n,  long long int* X,  INTT incX,
 	  long long int* Y,  INTT incY) {
 	  for (INTT i = 0; i<n; ++i)
 	  Y[incY*i]=X[incX*i];
 	  };*/
 
-/// Implementation of the INTTerface for cblas_scopy
+// Implementation of the INTTerface for cblas_scopy
 template <> inline void cblas_copy<bool>(INTT n, bool* X, INTT incX,
 	bool* Y, INTT incY)
 {
@@ -418,14 +416,14 @@ template <> inline void cblas_copy<bool>(INTT n, bool* X, INTT incX,
 		Y[incY*i] = X[incX*i];
 };
 
-/// Implementation of the INTTerface for cblas_daxpy
+// Implementation of the INTTerface for cblas_daxpy
 template <> inline void cblas_axpy<double>(INTT n, double a, double* X,
 	INTT incX, double* Y, INTT incY)
 {
 	//cblas_daxpy(n,a,X,incX,Y,incY);
 	daxpy_(&n, &a, X, &incX, Y, &incY);
 };
-/// Implementation of the INTTerface for cblas_saxpy
+// Implementation of the INTTerface for cblas_saxpy
 template <> inline void cblas_axpy<float>(INTT n, float a, float* X,
 	INTT incX, float* Y, INTT incY)
 {
@@ -440,7 +438,7 @@ template <> inline void cblas_axpby<double>(INTT n, double a, double* X,
 	dscal_(&n, &b, Y, &incY);
 	daxpy_(&n, &a, X, &incX, Y, &incY);
 };
-/// Implementation of the INTTerface for cblas_saxpy
+// Implementation of the INTTerface for cblas_saxpy
 template <> inline void cblas_axpby<float>(INTT n, float a, float* X,
 	INTT incX, float b, float* Y, INTT incY)
 {
@@ -452,14 +450,14 @@ template <> inline void cblas_axpby<double>( INTT n,  double a,  double* X,
 	INTT incX, double b, double* Y,  INTT incY) {
 	daxpby_(&n,&a,X,&incX,&b,Y,&incY);
 };
-/// Implementation of the INTTerface for cblas_saxpy
+// Implementation of the INTTerface for cblas_saxpy
 template <> inline void cblas_axpby<float>( INTT n,  float a,  float* X,
 	INTT incX, float b, float* Y,  INTT incY) {
 	saxpby_(&n,&a,X,&incX,&b,Y,&incY);
 };
 #endif
 
-/// Implementation of the INTTerface for cblas_saxpy
+// Implementation of the INTTerface for cblas_saxpy
 template <> inline void cblas_axpy<INTM>(INTT n, INTM a, INTM* X,
 	INTT incX, INTM* Y, INTT incY)
 {
@@ -467,7 +465,7 @@ template <> inline void cblas_axpy<INTM>(INTT n, INTM a, INTM* X,
 		Y[i] += a*X[i];
 };
 
-/// Implementation of the INTTerface for cblas_saxpy
+// Implementation of the INTTerface for cblas_saxpy
 /*template <> inline void cblas_axpy<long long int>( INTT n,  long long int a,   long long int* X,
 	   INTT incX,  long long int* Y,  INTT incY) {
 	   for (INTT i = 0; i<n; ++i)
@@ -475,7 +473,7 @@ template <> inline void cblas_axpy<INTM>(INTT n, INTM a, INTM* X,
 	   };*/
 
 
-/// Implementation of the INTTerface for cblas_saxpy
+// Implementation of the INTTerface for cblas_saxpy
 template <> inline void cblas_axpy<bool>(INTT n, bool a, bool* X,
 	INTT incX, bool* Y, INTT incY)
 {
@@ -484,21 +482,21 @@ template <> inline void cblas_axpy<bool>(INTT n, bool a, bool* X,
 };
 
 
-/// Implementation of the INTTerface for cblas_dscal
+// Implementation of the INTTerface for cblas_dscal
 template <> inline void cblas_scal<double>(INTT n, double a, double* X,
 	INTT incX)
 {
 	//cblas_dscal(n,a,X,incX);
 	dscal_(&n, &a, X, &incX);
 };
-/// Implementation of the INTTerface for cblas_sscal
+// Implementation of the INTTerface for cblas_sscal
 template <> inline void cblas_scal<float>(INTT n, float a, float* X,
 	INTT incX)
 {
 	//cblas_sscal(n,a,X,incX);
 	sscal_(&n, &a, X, &incX);
 };
-/// Implementation of the INTTerface for cblas_sscal
+// Implementation of the INTTerface for cblas_sscal
 template <> inline void cblas_scal<INTM>(INTT n, INTM a, INTM* X,
 	INTT incX)
 {
@@ -507,33 +505,33 @@ template <> inline void cblas_scal<INTM>(INTT n, INTM a, INTM* X,
 /*template <> inline void cblas_scal<long long int>( INTT n,  long long int a, long long int* X, INTT incX) {
    for (long long int i = 0; i < n; ++i) X[i*incX]*=a;
    };*/
-/// Implementation of the INTTerface for cblas_sscal
+// Implementation of the INTTerface for cblas_sscal
 template <> inline void cblas_scal<bool>(INTT n, bool a, bool* X,
 	INTT incX)
 {
-	/// not implemented
+	// not implemented
 };
 
-/// Implementation of the INTTerface for cblas_dasum
+// Implementation of the INTTerface for cblas_dasum
 template <> inline double cblas_asum<double>(INTT n, double* X, INTT incX)
 {
 	//return cblas_dasum(n,X,1);
 	return dasum_(&n, X, &incX);
 };
-/// Implementation of the INTTerface for cblas_sasum
+// Implementation of the INTTerface for cblas_sasum
 template <> inline float cblas_asum<float>(INTT n, float* X, INTT incX)
 {
 	//return cblas_sasum(n,X,1);
 	return sasum_(&n, X, &incX);
 };
-/// Implementation of the INTTerface for cblas_ddot
+// Implementation of the INTTerface for cblas_ddot
 template <> inline double cblas_dot<double>(INTT n, double* X,
 	INTT incX, double* Y, INTT incY)
 {
 	//return cblas_ddot(n,X,incX,Y,incY);
 	return ddot_(&n, X, &incX, Y, &incY);
 };
-/// Implementation of the INTTerface for cblas_sdot
+// Implementation of the INTTerface for cblas_sdot
 template <> inline float cblas_dot<float>(INTT n, float* X,
 	INTT incX, float* Y, INTT incY)
 {
@@ -565,11 +563,11 @@ template <> inline INTM cblas_dot<INTM>(INTT n, INTM* X,
 	   return total;
 	   };*/
 
-/// Implementation of the INTTerface for cblas_sdot
+// Implementation of the INTTerface for cblas_sdot
 template <> inline bool cblas_dot<bool>(INTT n, bool* X,
 	INTT incX, bool* Y, INTT incY)
 {
-	/// not implemented
+	// not implemented
 	return true;
 };
 
@@ -603,7 +601,7 @@ template <typename T> inline T cblas_doti(INTT n, T* X, INTT* r,
 
 
 // Implementations of the INTTerfaces, BLAS Level 2
-///  Implementation of the INTTerface for cblas_dgemv
+//  Implementation of the INTTerface for cblas_dgemv
 template <> inline void cblas_gemv<double>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, INTT M, INTT N,
 	double alpha, double *A, INTT lda,
@@ -613,7 +611,7 @@ template <> inline void cblas_gemv<double>(CBLAS_ORDER order,
 	//cblas_dgemv(order,TransA,M,N,alpha,A,lda,X,incX,beta,Y,incY);
 	dgemv_(cblas_transpose(TransA), &M, &N, &alpha, A, &lda, X, &incX, &beta, Y, &incY);
 };
-///  Implementation of the INTTerface for cblas_sgemv
+//  Implementation of the INTTerface for cblas_sgemv
 template <> inline void cblas_gemv<float>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, INTT M, INTT N,
 	float alpha, float *A, INTT lda,
@@ -623,33 +621,33 @@ template <> inline void cblas_gemv<float>(CBLAS_ORDER order,
 	//cblas_sgemv(order,TransA,M,N,alpha,A,lda,X,incX,beta,Y,incY);
 	sgemv_(cblas_transpose(TransA), &M, &N, &alpha, A, &lda, X, &incX, &beta, Y, &incY);
 };
-///  Implementation of the INTTerface for cblas_sgemv
+//  Implementation of the INTTerface for cblas_sgemv
 template <> inline void cblas_gemv<INTM>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, INTT M, INTT N,
 	INTM alpha, INTM*A, INTT lda,
 	INTM *X, INTT incX, INTM beta,
 	INTM *Y, INTT incY)
 {
-	///  not implemented
+	//  not implemented
 };
-///  Implementation of the INTTerface for cblas_sgemv
+//  Implementation of the INTTerface for cblas_sgemv
 template <> inline void cblas_gemv<bool>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, INTT M, INTT N,
 	bool alpha, bool *A, INTT lda,
 	bool *X, INTT incX, bool beta,
 	bool *Y, INTT incY)
 {
-	/// not implemented
+	// not implemented
 };
 /*template <> inline void cblas_gemv<long long int>( CBLAS_ORDER order,
 	   CBLAS_TRANSPOSE TransA,  INTT M,  INTT N,
 	   long long int alpha,  long long int *A,  INTT lda,
 	   long long int *X,  INTT incX,  long long int beta,
 	   long long int *Y,  INTT incY) {
-	   ///  not implemented
+	   //  not implemented
 	   };*/
 
-///  Implementation of the INTTerface for cblas_dger
+//  Implementation of the INTTerface for cblas_dger
 template <> inline void cblas_ger<double>(CBLAS_ORDER order,
 	INTT M, INTT N, double alpha, double *X, INTT incX,
 	double* Y, INTT incY, double *A, INTT lda)
@@ -657,7 +655,7 @@ template <> inline void cblas_ger<double>(CBLAS_ORDER order,
 	//cblas_dger(order,M,N,alpha,X,incX,Y,incY,A,lda);
 	dger_(&M, &N, &alpha, X, &incX, Y, &incY, A, &lda);
 };
-///  Implementation of the INTTerface for cblas_sger
+//  Implementation of the INTTerface for cblas_sger
 template <> inline void cblas_ger<float>(CBLAS_ORDER order,
 	INTT M, INTT N, float alpha, float *X, INTT incX,
 	float* Y, INTT incY, float *A, INTT lda)
@@ -665,7 +663,7 @@ template <> inline void cblas_ger<float>(CBLAS_ORDER order,
 	//cblas_sger(order,M,N,alpha,X,incX,Y,incY,A,lda);
 	sger_(&M, &N, &alpha, X, &incX, Y, &incY, A, &lda);
 };
-///  Implementation of the INTTerface for cblas_dtrmv
+//  Implementation of the INTTerface for cblas_dtrmv
 template <> inline void cblas_trmv<double>(CBLAS_ORDER order, CBLAS_UPLO Uplo,
 	CBLAS_TRANSPOSE TransA, CBLAS_DIAG Diag, INTT N,
 	double *A, INTT lda, double *X, INTT incX)
@@ -673,7 +671,7 @@ template <> inline void cblas_trmv<double>(CBLAS_ORDER order, CBLAS_UPLO Uplo,
 	//cblas_dtrmv(order,Uplo,TransA,Diag,N,A,lda,X,incX);
 	dtrmv_(cblas_uplo(Uplo), cblas_transpose(TransA), cblas_diag(Diag), &N, A, &lda, X, &incX);
 };
-///  Implementation of the INTTerface for cblas_strmv
+//  Implementation of the INTTerface for cblas_strmv
 template <> inline void cblas_trmv<float>(CBLAS_ORDER order, CBLAS_UPLO Uplo,
 	CBLAS_TRANSPOSE TransA, CBLAS_DIAG Diag, INTT N,
 	float *A, INTT lda, float *X, INTT incX)
@@ -681,7 +679,7 @@ template <> inline void cblas_trmv<float>(CBLAS_ORDER order, CBLAS_UPLO Uplo,
 	//cblas_strmv(order,Uplo,TransA,Diag,N,A,lda,X,incX);
 	strmv_(cblas_uplo(Uplo), cblas_transpose(TransA), cblas_diag(Diag), &N, A, &lda, X, &incX);
 };
-/// Implementation of cblas_dsyr
+// Implementation of cblas_dsyr
 template <> inline void cblas_syr(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo,
 	INTT N, double alpha, double*X,
@@ -690,7 +688,7 @@ template <> inline void cblas_syr(CBLAS_ORDER order,
 	//cblas_dsyr(order,Uplo,N,alpha,X,incX,A,lda);
 	dsyr_(cblas_uplo(Uplo), &N, &alpha, X, &incX, A, &lda);
 };
-/// Implementation of cblas_ssyr
+// Implementation of cblas_ssyr
 template <> inline void cblas_syr(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo,
 	INTT N, float alpha, float*X,
@@ -699,7 +697,7 @@ template <> inline void cblas_syr(CBLAS_ORDER order,
 	//cblas_ssyr(order,Uplo,N,alpha,X,incX,A,lda);
 	ssyr_(cblas_uplo(Uplo), &N, &alpha, X, &incX, A, &lda);
 };
-/// Implementation of cblas_ssymv
+// Implementation of cblas_ssymv
 template <> inline void cblas_symv(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, INTT N,
 	float alpha, float *A, INTT lda, float *X,
@@ -708,7 +706,7 @@ template <> inline void cblas_symv(CBLAS_ORDER order,
 	//cblas_ssymv(order,Uplo,N,alpha,A,lda,X,incX,beta,Y,incY);
 	ssymv_(cblas_uplo(Uplo), &N, &alpha, A, &lda, X, &incX, &beta, Y, &incY);
 }
-/// Implementation of cblas_dsymv
+// Implementation of cblas_dsymv
 template <> inline void cblas_symv(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, INTT N,
 	double alpha, double *A, INTT lda, double *X,
@@ -720,7 +718,7 @@ template <> inline void cblas_symv(CBLAS_ORDER order,
 
 
 // Implementations of the INTTerfaces, BLAS Level 3
-///  Implementation of the INTTerface for cblas_dgemm
+//  Implementation of the INTTerface for cblas_dgemm
 template <> inline void cblas_gemm<double>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, CBLAS_TRANSPOSE TransB,
 	INTT M, INTT N, INTT K, double alpha,
@@ -730,7 +728,7 @@ template <> inline void cblas_gemm<double>(CBLAS_ORDER order,
 	//cblas_dgemm(Order,TransA,TransB,M,N,K,alpha,A,lda,B,ldb,beta,C,ldc);
 	dgemm_(cblas_transpose(TransA), cblas_transpose(TransB), &M, &N, &K, &alpha, A, &lda, B, &ldb, &beta, C, &ldc);
 };
-///  Implementation of the INTTerface for cblas_sgemm
+//  Implementation of the INTTerface for cblas_sgemm
 template <> inline void cblas_gemm<float>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, CBLAS_TRANSPOSE TransB,
 	INTT M, INTT N, INTT K, float alpha,
@@ -746,27 +744,27 @@ template <> inline void cblas_gemm<INTM>(CBLAS_ORDER order,
 	INTM *A, INTT lda, INTM *B, INTT ldb,
 	INTM beta, INTM*C, INTT ldc)
 {
-	/// not implemented
+	// not implemented
 };
 /*template <> inline void cblas_gemm<long long int>( CBLAS_ORDER order,
 	   CBLAS_TRANSPOSE TransA,  CBLAS_TRANSPOSE TransB,
 	   INTT M,  INTT N,  INTT K,  long long int alpha,
 	   long long int *A,  INTT lda,  long long int *B,  INTT ldb,
 	   long long int beta, long long int *C,  INTT ldc) {
-	   /// not implemented
+	   // not implemented
 	   };*/
 
-///  Implementation of the INTTerface for cblas_sgemm
+//  Implementation of the INTTerface for cblas_sgemm
 template <> inline void cblas_gemm<bool>(CBLAS_ORDER order,
 	CBLAS_TRANSPOSE TransA, CBLAS_TRANSPOSE TransB,
 	INTT M, INTT N, INTT K, bool alpha,
 	bool *A, INTT lda, bool *B, INTT ldb,
 	bool beta, bool *C, INTT ldc)
 {
-	/// not implemented
+	// not implemented
 };
 
-///  Implementation of the INTTerface for cblas_dsyrk
+//  Implementation of the INTTerface for cblas_dsyrk
 template <> inline void cblas_syrk<double>(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, CBLAS_TRANSPOSE Trans, INTT N, INTT K,
 	double alpha, double *A, INTT lda,
@@ -775,7 +773,7 @@ template <> inline void cblas_syrk<double>(CBLAS_ORDER order,
 	//cblas_dsyrk(Order,Uplo,Trans,N,K,alpha,A,lda,beta,C,ldc);
 	dsyrk_(cblas_uplo(Uplo), cblas_transpose(Trans), &N, &K, &alpha, A, &lda, &beta, C, &ldc);
 };
-///  Implementation of the INTTerface for cblas_ssyrk
+//  Implementation of the INTTerface for cblas_ssyrk
 template <> inline void cblas_syrk<float>(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, CBLAS_TRANSPOSE Trans, INTT N, INTT K,
 	float alpha, float *A, INTT lda,
@@ -784,31 +782,31 @@ template <> inline void cblas_syrk<float>(CBLAS_ORDER order,
 	//cblas_ssyrk(Order,Uplo,Trans,N,K,alpha,A,lda,beta,C,ldc);
 	ssyrk_(cblas_uplo(Uplo), cblas_transpose(Trans), &N, &K, &alpha, A, &lda, &beta, C, &ldc);
 };
-///  Implementation of the INTTerface for cblas_ssyrk
+//  Implementation of the INTTerface for cblas_ssyrk
 template <> inline void cblas_syrk<INTM>(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, CBLAS_TRANSPOSE Trans, INTT N, INTT K,
 	INTM alpha, INTM*A, INTT lda,
 	INTM beta, INTM *C, INTT ldc)
 {
-	/// not implemented
+	// not implemented
 };
 /*template <> inline void cblas_syrk<long long int>( CBLAS_ORDER order,
 	   CBLAS_UPLO Uplo,  CBLAS_TRANSPOSE Trans,  INTT N,  INTT K,
 	   long long int alpha,  long long int *A,  INTT lda,
 	   long long int beta, long long int *C,  INTT ldc) {
-	   /// not implemented
+	   // not implemented
 	   };*/
 
-///  Implementation of the INTTerface for cblas_ssyrk
+//  Implementation of the INTTerface for cblas_ssyrk
 template <> inline void cblas_syrk<bool>(CBLAS_ORDER order,
 	CBLAS_UPLO Uplo, CBLAS_TRANSPOSE Trans, INTT N, INTT K,
 	bool alpha, bool *A, INTT lda,
 	bool beta, bool *C, INTT ldc)
 {
-	/// not implemented
+	// not implemented
 };
 
-///  Implementation of the INTTerface for cblas_dtrmm
+//  Implementation of the INTTerface for cblas_dtrmm
 template <> inline void cblas_trmm<double>(CBLAS_ORDER order,
 	CBLAS_SIDE Side, CBLAS_UPLO Uplo,
 	CBLAS_TRANSPOSE TransA, CBLAS_DIAG Diag,
@@ -818,7 +816,7 @@ template <> inline void cblas_trmm<double>(CBLAS_ORDER order,
 	//cblas_dtrmm(Order,Side,Uplo,TransA,Diag,M,N,alpha,A,lda,B,ldb);
 	dtrmm_(cblas_side(Side), cblas_uplo(Uplo), cblas_transpose(TransA), cblas_diag(Diag), &M, &N, &alpha, A, &lda, B, &ldb);
 };
-///  Implementation of the INTTerface for cblas_strmm
+//  Implementation of the INTTerface for cblas_strmm
 template <> inline void cblas_trmm<float>(CBLAS_ORDER order,
 	CBLAS_SIDE Side, CBLAS_UPLO Uplo,
 	CBLAS_TRANSPOSE TransA, CBLAS_DIAG Diag,
@@ -828,14 +826,14 @@ template <> inline void cblas_trmm<float>(CBLAS_ORDER order,
 	//cblas_strmm(Order,Side,Uplo,TransA,Diag,M,N,alpha,A,lda,B,ldb);
 	strmm_(cblas_side(Side), cblas_uplo(Uplo), cblas_transpose(TransA), cblas_diag(Diag), &M, &N, &alpha, A, &lda, B, &ldb);
 };
-///  Implementation of the interface for cblas_idamax
+//  Implementation of the interface for cblas_idamax
 template <> inline INTT cblas_iamax<double>(INTT n, double* X,
 	INTT incX)
 {
 	//return cblas_idamax(n,X,incX);
 	return static_cast<INTT>(idamax_(&n, X, &incX) - 1);
 };
-///  Implementation of the interface for cblas_isamax
+//  Implementation of the interface for cblas_isamax
 template <> inline INTT cblas_iamax<float>(INTT n, float* X,
 	INTT incX)
 {
@@ -844,14 +842,14 @@ template <> inline INTT cblas_iamax<float>(INTT n, float* X,
 };
 
 // Implementations of the interfaces, LAPACK
-/// Implemenation of the interface for dtrtri
+// Implemenation of the interface for dtrtri
 template <> inline void trtri<double>(char& uplo, char& diag,
 	INTT n, double * a, INTT lda)
 {
 	//dtrtri_(&uplo,&diag,&n,a,&lda,&info);
 	dtrtri_(&uplo, &diag, &n, a, &lda, &info);
 };
-/// Implemenation of the interface for strtri
+// Implemenation of the interface for strtri
 template <> inline void trtri<float>(char& uplo, char& diag,
 	INTT n, float* a, INTT lda)
 {
@@ -859,7 +857,7 @@ template <> inline void trtri<float>(char& uplo, char& diag,
 	strtri_(&uplo, &diag, &n, a, &lda, &info);
 };
 
-/// Implemenation of the interface for dsytri
+// Implemenation of the interface for dsytri
 template <> inline void sytri<double>(char& uplo, INTT n, double* a, INTT lda)
 {
 	//, INTT* ipiv, double* work) {
@@ -879,7 +877,7 @@ template <> inline void sytri<double>(char& uplo, INTT n, double* a, INTT lda)
 	delete[](work);
 	delete[](ipiv);
 };
-/// Implemenation of the interface for ssytri
+// Implemenation of the interface for ssytri
 template <> inline void sytri<float>(char& uplo, INTT n, float* a, INTT lda)
 {
 	INTT lwork = -1;
@@ -897,13 +895,13 @@ template <> inline void sytri<float>(char& uplo, INTT n, float* a, INTT lda)
 	delete[](work);
 	delete[](ipiv);
 };
-/// interaface to *lasrt
+// interaface to *lasrt
 template <> inline void lasrt(char& id, INTT n, double *d)
 {
 	//dlasrt_(&id,const_cast<int*>(&n),d,&info);
 	dlasrt_(&id, &n, d, &info);
 };
-/// interaface to *lasrt
+// interaface to *lasrt
 template <> inline void lasrt(char& id, INTT n, float *d)
 {
 	//slasrt_(&id,const_cast<int*>(&n),d,&info);
@@ -913,7 +911,7 @@ template <> inline void lasrt(char& id, INTT n, float *d)
 //   //dlasrt2_(&id,const_cast<int*>(&n),d,key,&info);
 //   dlasrt2(&id,&n,d,key,&info);
 //};
-///// interaface to *lasrt
+//// interaface to *lasrt
 //template <> inline void lasrt2(char& id, INTT& n, float *d, int* key) {
 //   //slasrt2_(&id,const_cast<int*>(&n),d,key,&info);
 //   slasrt2(&id,&n,d,key,&info);
@@ -975,134 +973,131 @@ template <> void inline syev(char& jobz, char& uplo, INTT n,
 	delete[](work);
 };
 
-
-
-
-/// If the MKL is not present, a slow implementation is used instead.
-/*#ifdef HAVE_MKL
+// If the MKL is not present, a slow implementation is used instead.
+#ifdef HAVE_MKL
 
 extern "C" {
-INTT idamin_(INTT *n, double *dx, INTT *incx);
-INTT isamin_(INTT *n, float *dx, INTT *incx);
+	INTT idamin_(INTT *n, double *dx, INTT *incx);
+	INTT isamin_(INTT *n, float *dx, INTT *incx);
 };
-/// Implemenation of the interface for vdSqr
+// Implemenation of the interface for vdSqr
 template <> inline void vSqr<double>( int n,  double* vecIn,
-double* vecOut) {
-vdSqr(n,vecIn,vecOut);
+	double* vecOut) {
+	vdSqr(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vsSqr
+// Implemenation of the interface for vsSqr
 template <> inline void vSqr<float>( int n,  float* vecIn,
-float* vecOut) {
-vsSqr(n,vecIn,vecOut);
+	float* vecOut) {
+	vsSqr(n,vecIn,vecOut);
 };
 template <> inline void vSqrt<double>( int n,  double* vecIn,
-double* vecOut) {
-vdSqrt(n,vecIn,vecOut);
+	double* vecOut) {
+	vdSqrt(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vsSqr
+// Implemenation of the interface for vsSqr
 template <> inline void vSqrt<float>( int n,  float* vecIn,
-float* vecOut) {
-vsSqrt(n,vecIn,vecOut);
+	float* vecOut) {
+	vsSqrt(n,vecIn,vecOut);
 };
 template <> inline void vInvSqrt<double>( int n,  double* vecIn,
-double* vecOut) {
-vdInvSqrt(n,vecIn,vecOut);
+	double* vecOut) {
+	vdInvSqrt(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vsSqr
+// Implemenation of the interface for vsSqr
 template <> inline void vInvSqrt<float>( int n,  float* vecIn,
-float* vecOut) {
-vsInvSqrt(n,vecIn,vecOut);
+	float* vecOut) {
+	vsInvSqrt(n,vecIn,vecOut);
 };
 
-/// Implemenation of the interface for vdSub
+// Implemenation of the interface for vdSub
 template <> inline void vSub<double>( int n,  double* vecIn,
-double* vecIn2, double* vecOut) {
-vdSub(n,vecIn,vecIn2,vecOut);
+	double* vecIn2, double* vecOut) {
+	vdSub(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vsSub
+// Implemenation of the interface for vsSub
 template <> inline void vSub<float>( int n,  float* vecIn,
-float* vecIn2, float* vecOut) {
-vsSub(n,vecIn,vecIn2,vecOut);
+	float* vecIn2, float* vecOut) {
+	vsSub(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vdDiv
+// Implemenation of the interface for vdDiv
 template <> inline void vDiv<double>( int n,  double* vecIn,
-double* vecIn2, double* vecOut) {
-vdDiv(n,vecIn,vecIn2,vecOut);
+	double* vecIn2, double* vecOut) {
+	vdDiv(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vsDiv
+// Implemenation of the interface for vsDiv
 template <> inline void vDiv<float>( int n,  float* vecIn,
-float* vecIn2, float* vecOut) {
-vsDiv(n,vecIn,vecIn2,vecOut);
+	float* vecIn2, float* vecOut) {
+	vsDiv(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vdExp
+// Implemenation of the interface for vdExp
 template <> inline void vExp<double>( int n,  double* vecIn,
-double* vecOut) {
-vdExp(n,vecIn,vecOut);
+	double* vecOut) {
+	vdExp(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vsExp
+// Implemenation of the interface for vsExp
 template <> inline void vExp<float>( int n,  float* vecIn,
-float* vecOut) {
-vsExp(n,vecIn,vecOut);
+	float* vecOut) {
+	vsExp(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vdInv
+// Implemenation of the interface for vdInv
 template <> inline void vInv<double>( int n,  double* vecIn,
-double* vecOut) {
-vdInv(n,vecIn,vecOut);
+	double* vecOut) {
+	vdInv(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vsInv
+// Implemenation of the interface for vsInv
 template <> inline void vInv<float>( int n,  float* vecIn,
-float* vecOut) {
-vsInv(n,vecIn,vecOut);
+	float* vecOut) {
+	vsInv(n,vecIn,vecOut);
 };
-/// Implemenation of the interface for vdAdd
+// Implemenation of the interface for vdAdd
 template <> inline void vAdd<double>( int n,  double* vecIn,
-double* vecIn2, double* vecOut) {
-vdAdd(n,vecIn,vecIn2,vecOut);
+	double* vecIn2, double* vecOut) {
+	vdAdd(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vsAdd
+// Implemenation of the interface for vsAdd
 template <> inline void vAdd<float>( int n,  float* vecIn,
-float* vecIn2, float* vecOut) {
-vsAdd(n,vecIn,vecIn2,vecOut);
+	float* vecIn2, float* vecOut) {
+	vsAdd(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vdMul
+// Implemenation of the interface for vdMul
 template <> inline void vMul<double>( int n,  double* vecIn,
-double* vecIn2, double* vecOut) {
-vdMul(n,vecIn,vecIn2,vecOut);
+	double* vecIn2, double* vecOut) {
+	vdMul(n,vecIn,vecIn2,vecOut);
 };
-/// Implemenation of the interface for vsMul
+// Implemenation of the interface for vsMul
 template <> inline void vMul<float>( int n,  float* vecIn,
-float* vecIn2, float* vecOut) {
-vsMul(n,vecIn,vecIn2,vecOut);
+	float* vecIn2, float* vecOut) {
+	vsMul(n,vecIn,vecIn2,vecOut);
 };
 
-/// interface to vdAbs
+// interface to vdAbs
 template <> inline void vAbs( int n,  double* vecIn,
-double* vecOut) {
-vdAbs(n,vecIn,vecOut);
+	double* vecOut) {
+	vdAbs(n,vecIn,vecOut);
 };
-/// interface to vdAbs
+// interface to vdAbs
 template <> inline void vAbs( int n,  float* vecIn,
-float* vecOut) {
-vsAbs(n,vecIn,vecOut);
+	float* vecOut) {
+	vsAbs(n,vecIn,vecOut);
 };
 
-
-/// implemenation of the interface of the non-offical blas, level 1 function
-/// cblas_idamin
+// implemenation of the interface of the non-offical blas, level 1 function
+// cblas_idamin
 template <> inline INTT cblas_iamin<double>(  INTT n,  double* X,
-INTT incX) {
-return static_cast<INTT>(idamin_(&n,X,&incX)-1);
+	INTT incX) {
+	return static_cast<INTT>(idamin_(&n,X,&incX)-1);
 };
-/// implemenation of the interface of the non-offical blas, level 1 function
-/// cblas_isamin
+// implemenation of the interface of the non-offical blas, level 1 function
+// cblas_isamin
 template <> inline INTT cblas_iamin<float>( INTT n,  float* X,
-INTT incX) {
-return static_cast<INTT >(isamin_(&n,X,&incX)-1);
+	INTT incX) {
+	return static_cast<INTT >(isamin_(&n,X,&incX)-1);
 };
-/// slow alternative implementation of some MKL function
+// slow alternative implementation of some MKL function
 
-#else*/
-/// Slow implementation of vdSqr and vsSqr
+#else
+
+// Slow implementation of vdSqr and vsSqr
 template <typename T> inline void vSqr(INTT n, T* vecIn, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = vecIn[i] * vecIn[i];
@@ -1116,48 +1111,48 @@ template <typename T> inline void vInvSqrt(INTT n, T* vecIn, T* vecOut)
 	for (INTT i = 0; i < n; ++i) vecOut[i] = T(1.0) / sqr<T>(vecIn[i]);
 };
 
-/// Slow implementation of vdSub and vsSub
+// Slow implementation of vdSub and vsSub
 template <typename T> inline void vSub(INTT n, T* vecIn1,
 	T* vecIn2, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = vecIn1[i] - vecIn2[i];
 };
-/// Slow implementation of vdInv and vsInv
+// Slow implementation of vdInv and vsInv
 template <typename T> inline void vInv(INTT n, T* vecIn, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = 1.0 / vecIn[i];
 };
-/// Slow implementation of vdExp and vsExp
+// Slow implementation of vdExp and vsExp
 template <typename T> inline void vExp(INTT n, T* vecIn, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = exp(vecIn[i]);
 };
-/// Slow implementation of vdAdd and vsAdd
+// Slow implementation of vdAdd and vsAdd
 template <typename T> inline void vAdd(INTT n, T* vecIn1,
 	T* vecIn2, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = vecIn1[i] + vecIn2[i];
 };
-/// Slow implementation of vdMul and vsMul
+// Slow implementation of vdMul and vsMul
 template <typename T> inline void vMul(INTT n, T* vecIn1,
 	T* vecIn2, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = vecIn1[i] * vecIn2[i];
 };
-/// Slow implementation of vdDiv and vsDiv
+// Slow implementation of vdDiv and vsDiv
 template <typename T> inline void vDiv(INTT n, T* vecIn1,
 	T* vecIn2, T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = vecIn1[i] / vecIn2[i];
 };
-/// Slow implementation of vAbs
+// Slow implementation of vAbs
 template <typename T> inline void vAbs(INTT n, T* vecIn,
 	T* vecOut)
 {
 	for (INTT i = 0; i < n; ++i) vecOut[i] = abs<T>(vecIn[i]);
 };
 
-/// Slow implementation of cblas_idamin and cblas_isamin
+// Slow implementation of cblas_idamin and cblas_isamin
 template <typename T> INTT inline cblas_iamin(INTT n, T* X, INTT incX)
 {
 	INTT imin = 0;
@@ -1171,8 +1166,5 @@ template <typename T> INTT inline cblas_iamin(INTT n, T* X, INTT incX)
 	}
 	return imin;
 }
-//#endif
 
-#endif 
-
-#endif // CBLAS_ALT_TEMPLATE_H
+#endif /* ifdef HAVE_MKL */

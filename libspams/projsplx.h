@@ -1,3 +1,4 @@
+#pragma once
 /*!
  * Software SPAMS v2.5 - Copyright 2009-2014 Julien Mairal
  *
@@ -26,9 +27,6 @@
  *                File projsplx.h
  * \brief Contains projection on simplex algorithms
  * It requires the toolbox linalg */
-
-#ifndef PROJSPLX_H
-#define PROJSPLX_H
 
 #include "utils.h"
 
@@ -102,5 +100,3 @@ void projsplxMatrixOn(const Matrix<T>& Beta)
 		refColBeta.copy(b);
 	}
 }
-
-#endif

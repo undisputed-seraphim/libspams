@@ -1,3 +1,4 @@
+#pragma once
 /*!
  * Software SPAMS v2.5 - Copyright 2009-2014 Julien Mairal
  *
@@ -28,8 +29,6 @@
  * It requires the toolbox linalg */
 
 // This file was written by Yuansi Chen
-#ifndef ARCH_H
-#define ARCH_H
 
 #include "utils.h"
 #include "lsqsplx.h"
@@ -41,8 +40,8 @@
  * Alternating Archetypal Analysis
  * **************************/
 
-/// Alternating Minimization 
-/// Each sub-quadratic programming is solved by ActiveSet Method
+// Alternating Minimization 
+// Each sub-quadratic programming is solved by ActiveSet Method
 
 template <typename T>
 void arch(const Matrix<T>& X, const Matrix<T>& Z0, Matrix<T>& Z, SpMatrix<T>& A, SpMatrix<T>& B, const int I1 = 3, const int I2 = 20, const T lambda2 = T(10e-5), const T epsilon = T(10e-5), const bool computeZtZ = true);
@@ -50,7 +49,7 @@ void arch(const Matrix<T>& X, const Matrix<T>& Z0, Matrix<T>& Z, SpMatrix<T>& A,
 template <typename T>
 void archRobust(const Matrix<T>& X, const Matrix<T>& Z0, Matrix<T>& Z, SpMatrix<T>& A, SpMatrix<T>& B, const int I1 = 3, const int I2 = 20, const T lambda2 = T(10e-5), const T epsilon = T(10e-5), const T epsilon2 = T(10e-3), const bool computeZtZ = true);
 
-/// General functions including previous ones. Less parameters and simple use, for Python and Matlab interface
+// General functions including previous ones. Less parameters and simple use, for Python and Matlab interface
 
 template <typename T>
 void archetypalAnalysis(const Matrix<T>& X, const Matrix<T>& Z0, Matrix<T>& Z, SpMatrix<T>& A, SpMatrix<T>& B, const bool robust = false, const T epsilon2 = T(10e-3), const bool computeXtX = false, const int stepsFISTA = 5, const int stepsAS = 50, const int numThreads = -1);
@@ -348,7 +347,7 @@ void archRobust(const Matrix<T>& X, const Matrix<T>& Z0, Matrix<T>& Z, SpMatrix<
 		matRSS.copy(X);
 		Z.mult(AlphaT, matRSS, false, false, T(-1.0), T(1.0));
 #else
-		/// new version
+		// new version
 		Vector<T> refColX;
 		Vector<T> tmp;
 		Vector<T> tmp2;
@@ -386,7 +385,7 @@ void archRobust(const Matrix<T>& X, const Matrix<T>& Z0, Matrix<T>& Z, SpMatrix<
 			}
 		}
 #endif
-		/// end new version
+		// end new version
 
 		matRSS.norm_2_cols(norms);
 		for (int i = 0; i < norms.n(); ++i)
@@ -475,5 +474,3 @@ void decompSimplex(const Matrix<T>& X, const Matrix<T>& Z, SpMatrix<T>& alpha, c
 		AlphaT.toSparse(alpha);
 	}
 }
-
-#endif

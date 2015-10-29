@@ -5,64 +5,75 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9b1f5cd6-ff79-47dd-abdd-6a6e244a8569}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="surrogate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="spams.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="projsplx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="project.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mexutils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mexgrouputils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lsqsplx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="linalg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="groups-graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fista.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dicts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="decomp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cblas_defvar.h">
+    <ClInclude Include="arch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cblas_alt_template.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="arch.h">
+    <ClInclude Include="cblas_defvar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="decomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dicts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fista.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="groups-graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linalg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lsqsplx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="projsplx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="surrogate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cblas_defvar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fista.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

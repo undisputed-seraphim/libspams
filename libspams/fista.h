@@ -1,3 +1,4 @@
+#pragma once
 /* Software SPAMS v2.1 - Copyright 2009-2011 Julien Mairal
  *
  * This file is part of SPAMS.
@@ -16,9 +17,6 @@
  * along with SPAMS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FISTA_H
-#define FISTA_H
-
 #include "linalg.h"
 #include "project.h"
 
@@ -28,123 +26,34 @@ namespace FISTA
 enum loss_t { SQUARE, SQUARE_MISSING, LOG, LOGWEIGHT, MULTILOG, CUR, HINGE, POISSON, INCORRECT_LOSS };
 enum regul_t { L0, L1, RIDGE, L2, LINF, L1CONSTRAINT, ELASTICNET, FUSEDLASSO, GROUPLASSO_L2, GROUPLASSO_LINF, GROUPLASSO_L2_L1, GROUPLASSO_LINF_L1, L1L2, L1LINF, L1L2_L1, L1LINF_L1, TREE_L0, TREE_L2, TREE_LINF, GRAPH, GRAPH_RIDGE, GRAPH_L2, TREEMULT, GRAPHMULT, L1LINFCR, NONE, TRACE_NORM, TRACE_NORM_VEC, RANK, RANK_VEC, INCORRECT_REG, GRAPH_PATH_L0, GRAPH_PATH_CONV, LOG_DC, NA };
 
-regul_t regul_from_string(char* regul)
+struct regul_def
 {
-	if (strcmp(regul, "l0") == 0) return L0;
-	if (strcmp(regul, "l1") == 0) return L1;
-	if (strcmp(regul, "l2") == 0) return RIDGE;
-	if (strcmp(regul, "linf") == 0) return LINF;
-	if (strcmp(regul, "l2-not-squared") == 0) return L2;
-	if (strcmp(regul, "log-dc") == 0) return LOG_DC;
-	if (strcmp(regul, "l1-constraint") == 0) return L1CONSTRAINT;
-	if (strcmp(regul, "elastic-net") == 0) return ELASTICNET;
-	if (strcmp(regul, "fused-lasso") == 0) return FUSEDLASSO;
-	if (strcmp(regul, "group-lasso-l2") == 0) return GROUPLASSO_L2;
-	if (strcmp(regul, "group-lasso-linf") == 0) return GROUPLASSO_LINF;
-	if (strcmp(regul, "sparse-group-lasso-l2") == 0) return GROUPLASSO_L2_L1;
-	if (strcmp(regul, "sparse-group-lasso-linf") == 0) return GROUPLASSO_LINF_L1;
-	if (strcmp(regul, "l1l2") == 0) return L1L2;
-	if (strcmp(regul, "l1linf") == 0) return L1LINF;
-	if (strcmp(regul, "l1l2+l1") == 0) return L1L2_L1;
-	if (strcmp(regul, "l1linf+l1") == 0) return L1LINF_L1;
-	if (strcmp(regul, "tree-l0") == 0) return TREE_L0;
-	if (strcmp(regul, "tree-l2") == 0) return TREE_L2;
-	if (strcmp(regul, "tree-linf") == 0) return TREE_LINF;
-	if (strcmp(regul, "graph") == 0) return GRAPH;
-	if (strcmp(regul, "graph-ridge") == 0) return GRAPH_RIDGE;
-	if (strcmp(regul, "graph-l2") == 0) return GRAPH_L2;
-	if (strcmp(regul, "multi-task-tree") == 0) return TREEMULT;
-	if (strcmp(regul, "multi-task-graph") == 0) return GRAPHMULT;
-	if (strcmp(regul, "l1linf-row-column") == 0) return L1LINFCR;
-	if (strcmp(regul, "trace-norm") == 0) return TRACE_NORM;
-	if (strcmp(regul, "trace-norm-vec") == 0) return TRACE_NORM_VEC;
-	if (strcmp(regul, "rank") == 0) return RANK;
-	if (strcmp(regul, "rank-vec") == 0) return RANK_VEC;
-	if (strcmp(regul, "graph-path-l0") == 0) return GRAPH_PATH_L0;
-	if (strcmp(regul, "graph-path-conv") == 0) return GRAPH_PATH_CONV;
-	if (strcmp(regul, "none") == 0) return NONE;
-	return INCORRECT_REG;
-}
-
-loss_t loss_from_string(char* loss)
-{
-	if (strcmp(loss, "square") == 0) return SQUARE;
-	if (strcmp(loss, "square-missing") == 0) return SQUARE_MISSING;
-	if (strcmp(loss, "logistic") == 0) return LOG;
-	if (strcmp(loss, "poisson") == 0) return POISSON;
-	if (strcmp(loss, "weighted-logistic") == 0) return LOGWEIGHT;
-	if (strcmp(loss, "hinge") == 0) return HINGE;
-	if (strcmp(loss, "multi-logistic") == 0) return MULTILOG;
-	if (strcmp(loss, "cur") == 0) return CUR;
-	return INCORRECT_LOSS;
-}
-
-void print_loss(const loss_t& loss)
-{
-	switch (loss) {
-	case SQUARE: cout << "Square loss" << endl; break;
-	case SQUARE_MISSING: cout << "Square loss with missing data" << endl; break;
-	case LOG: cout << "Logistic loss" << endl; break;
-	case LOGWEIGHT: cout << "Weighted Logistic loss" << endl; break;
-	case HINGE: cout << "Hinge loss" << endl; break;
-	case MULTILOG: cout << "Multiclass logistic Loss" << endl; break;
-	case POISSON: cout << "Modified Poisson loss" << endl; break;
-	case CUR: cout << "CUR decomposition" << endl; break;
-	default: cerr << "Not implemented" << endl;
-	}
+	const char *name;
+	FISTA::regul_t regul;
+} regul_table[] = {
+	{"l0", FISTA::L0},
+	{"l1", FISTA::L1},
+	{"l2", FISTA::L2},
+	{"linf", FISTA::LINF},
+	{"none", FISTA::NONE},
+	{"elastic-net", FISTA::ELASTICNET},
+	{"fused-lasso", FISTA::FUSEDLASSO},
+	{"graph", FISTA::GRAPH},
+	{"graph-ridge", FISTA::GRAPH_RIDGE},
+	{"tree-l0", FISTA::TREE_L0},
+	{"tree-l2", FISTA::TREE_L2},
+	{"tree-linf", FISTA::TREE_LINF},
 };
+#define NBREGUL sizeof(regul_table)/sizeof(struct regul_def)
 
-bool loss_for_matrices(const loss_t& loss)
-{
-	return loss == MULTILOG || loss == CUR;
-}
-
-void print_regul(const regul_t& regul)
-{
-	switch (regul) {
-	case L0: cout << "L0 regularization" << endl; break;
-	case L1: cout << "L1 regularization" << endl; break;
-	case RIDGE: cout << "L2-squared regularization" << endl; break;
-	case L2: cout << "L2-not-squared regularization" << endl; break;
-	case LOG_DC: cout << "reweighted-l1 regularization" << endl; break;
-	case L1CONSTRAINT: cout << "L1 constraint regularization" << endl; break;
-	case LINF: cout << "Linf regularization" << endl; break;
-	case ELASTICNET: cout << "Elastic-net regularization" << endl; break;
-	case FUSEDLASSO: cout << "Fused Lasso or total variation regularization" << endl; break;
-	case GROUPLASSO_L2: cout << "Group Lasso L2" << endl; break;
-	case GROUPLASSO_LINF: cout << "Group Lasso LINF" << endl; break;
-	case GROUPLASSO_L2_L1: cout << "Group Lasso L2 + L1" << endl; break;
-	case GROUPLASSO_LINF_L1: cout << "Group Lasso LINF + L1" << endl; break;
-	case L1L2: cout << "L1L2 regularization" << endl; break;
-	case L1LINF: cout << "L1LINF regularization" << endl; break;
-	case TRACE_NORM: cout << "Trace Norm regularization" << endl; break;
-	case TRACE_NORM_VEC: cout << "Trace Norm regularization for vectors" << endl; break;
-	case RANK: cout << "Rank regularization" << endl; break;
-	case RANK_VEC: cout << "Rank regularization for vectors" << endl; break;
-	case L1L2_L1: cout << "L1L2 regularization + L1" << endl; break;
-	case L1LINF_L1: cout << "L1LINF regularization + L1" << endl; break;
-	case TREE_L0: cout << "Tree-L0 regularization" << endl; break;
-	case TREE_L2: cout << "Tree-L2 regularization" << endl; break;
-	case TREE_LINF: cout << "Tree-Linf regularization" << endl; break;
-	case GRAPH: cout << "Graph regularization" << endl; break;
-	case GRAPH_RIDGE: cout << "Graph+ridge regularization" << endl; break;
-	case GRAPH_L2: cout << "Graph regularization with l2" << endl; break;
-	case TREEMULT: cout << "multitask tree regularization" << endl; break;
-	case GRAPHMULT: cout << "multitask graph regularization" << endl; break;
-	case L1LINFCR: cout << "L1LINF regularization on rows and columns" << endl; break;
-	case GRAPH_PATH_L0: cout << "Graph path non-convex regularization" << endl; break;
-	case GRAPH_PATH_CONV: cout << "Graph path convex regularization" << endl; break;
-	case NONE: cout << "No regularization" << endl; break;
-	default: cerr << "Not implemented" << endl;
-	}
-};
-
-bool regul_for_matrices(const regul_t& regul)
-{
-	return regul == L1L2 || regul == L1LINF || regul == L1L2_L1 || regul == L1LINF_L1
-		|| regul == TREEMULT || regul == GRAPHMULT || regul == L1LINFCR ||
-		regul == TRACE_NORM || regul == RANK;
-}
+regul_t regul_from_string(char* regul);
+regul_t regul_from_string(const char* regul);
+loss_t loss_from_string(char* loss);
+void print_loss(const loss_t& loss);
+bool loss_for_matrices(const loss_t& loss);
+void print_regul(const regul_t& regul);
+bool regul_for_matrices(const regul_t& regul);
+void regul_error(char *buffer, int bufsize, const char *message);
 
 template <typename T> struct ParamFISTA
 {
@@ -1228,8 +1137,8 @@ public:
 	virtual void reset() {};
 	virtual void prox(const D& input, D& output, const T lambda) = 0;
 	virtual T eval(const D& input) const = 0;
-	/// returns phi^star( input ) and ouput=input if the fenchel is unconstrained
-	/// returns 0 and scale input such that phi^star(output)=0 otherwise
+	// returns phi^star( input ) and ouput=input if the fenchel is unconstrained
+	// returns 0 and scale input such that phi^star(output)=0 otherwise
 	virtual void fenchel(const D& input, T& val, T& scal) const = 0;
 	virtual bool is_fenchel() const { return true; };
 	virtual bool is_intercept() const { return _intercept; };
@@ -1493,7 +1402,7 @@ public:
 		Vector<T> xref(x.rawX(), this->_intercept ? x.n() - 1 : x.n());
 		return xref.nrm2();
 	};
-	/// TODO add subgradient
+	// TODO add subgradient
 	void inline fenchel(const Vector<T>& input, T& val, T& scal) const
 	{
 		Vector<T> output;
@@ -1529,7 +1438,7 @@ public:
 		Vector<T> xref(x.rawX(), this->_intercept ? x.n() - 1 : x.n());
 		return xref.fmaxval();
 	};
-	/// TODO add subgradient
+	// TODO add subgradient
 	void inline fenchel(const Vector<T>& input, T& val, T& scal) const
 	{
 		Vector<T> output;
@@ -2972,7 +2881,7 @@ void subGradientDescent_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regulari
 	time.start();
 	int it;
 	for (it = 1; it <= param.max_it; ++it) {
-		/// print loss
+		// print loss
 		if (param.verbose && ((it % it0) == 0)) {
 			time.stop();
 			T los = loss.eval(x) + lambda*regularizer.eval(x);
@@ -2987,7 +2896,7 @@ void subGradientDescent_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regulari
 			time.start();
 		}
 
-		/// compute gradient
+		// compute gradient
 		loss.grad(x, grad);
 		regularizer.sub_grad(x, sub_grad);
 		T step = param.sqrt_step ? param.a / (param.b + sqrt(static_cast<T>(it))) : param.a / (param.b + (static_cast<T>(it)));
@@ -3023,11 +2932,11 @@ void ISTA_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regularizer, const D& 
 	T L = param.L0;
 	x.copy(x0);
 	D grad, tmp, prox, old;
-	/// linesearch_mode =
-	///    0: regular monotonic scheme
-	///    1: regular monotonic scheme but restart at L0
-	///    2: Barzilai-Borwein
-	///    3: back_tracking in both directions
+	// linesearch_mode =
+	//    0: regular monotonic scheme
+	//    1: regular monotonic scheme but restart at L0
+	//    2: Barzilai-Borwein
+	//    3: back_tracking in both directions
 	D sbb, xbb;
 	const T alphamax = 10e30 * 1 / L;
 	const T alphamin = 10e-30 * 1 / L;
@@ -3042,7 +2951,7 @@ void ISTA_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regularizer, const D& 
 	int it;
 	T best_dual = -INFINITY;
 	for (it = 1; it <= param.max_it; ++it) {
-		/// print loss
+		// print loss
 		if (param.verbose && ((it % it0) == 0)) {
 			time.stop();
 			T los = loss.eval(x) + lambda*regularizer.eval(x);
@@ -3055,7 +2964,7 @@ void ISTA_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regularizer, const D& 
 			time.start();
 		}
 
-		/// compute gradient
+		// compute gradient
 		loss.grad(x, grad);
 		if (dc) regularizer.linearize(x);
 		if (param.linesearch_mode == 2 && it > 1) {
@@ -3158,7 +3067,7 @@ void FISTA_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regularizer, const D&
 	int it;
 	T best_dual = -INFINITY;
 	for (it = 1; it <= param.max_it; ++it) {
-		/// print loss
+		// print loss
 		if (param.verbose && ((it % it0) == 0)) {
 			time.stop();
 			T los = loss.eval(x) + lambda*regularizer.eval(x);
@@ -3171,7 +3080,7 @@ void FISTA_Generic(Loss<T, D, E>& loss, Regularizer<T, D>& regularizer, const D&
 			time.start();
 		}
 
-		/// compute gradient
+		// compute gradient
 		loss.grad(y, grad);
 
 		int iter = 1;
@@ -3379,10 +3288,10 @@ void ADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFunction<
 			time.start();
 		}
 		if (param.is_inner_weights) {
-			/// update w
+			// update w
 			update_multipliers_weighted_ADMM(w, splitted_w_loss, multipliers_w_loss, splitted_w_reg, multipliers_w_reg, gamma, param.inner_weights);
 
-			/// update the splitting variables
+			// update the splitting variables
 			splitted_w_loss.copy(multipliers_w_loss);
 			splitted_w_loss.scal((1.0) / gamma);
 			splitted_w_loss.addVecToCols(w);
@@ -3394,7 +3303,7 @@ void ADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFunction<
 				reg.prox_split(splitted_w_reg, lambda / gamma);
 			}
 
-			/// update  multipliers
+			// update  multipliers
 			multipliers_w_loss.addVecToCols(w, gamma);
 			multipliers_w_loss.add(splitted_w_loss, -gamma);
 			if (n_reg > 0) {
@@ -3403,10 +3312,10 @@ void ADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFunction<
 				multipliers_w_reg.add_direct(splitted_w_reg, -gamma);
 			}
 		} else {
-			/// update w
+			// update w
 			update_multipliers_ADMM(w, splitted_w_loss, multipliers_w_loss, splitted_w_reg, multipliers_w_reg, gamma);
 
-			/// update the splitting variables
+			// update the splitting variables
 			splitted_w_loss.copy(multipliers_w_loss);
 			splitted_w_loss.scal((1.0) / gamma);
 			splitted_w_loss.addVecToCols(w);
@@ -3418,7 +3327,7 @@ void ADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFunction<
 				reg.prox_split(splitted_w_reg, lambda / gamma);
 			}
 
-			/// update  multipliers
+			// update  multipliers
 			multipliers_w_loss.addVecToCols(w, gamma);
 			multipliers_w_loss.add(splitted_w_loss, -gamma);
 			if (n_reg > 0) {
@@ -3427,7 +3336,7 @@ void ADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFunction<
 			}
 		}
 
-		/// stopping criterion
+		// stopping criterion
 		if ((it % it0) == 0) {
 			if (it > 0 && (old_los - los) / old_los < param.tol) break;
 			old_los = los;
@@ -3523,10 +3432,10 @@ void LinADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFuncti
 			}
 			time.start();
 		}
-		/// update primal_loss variables
+		// update primal_loss variables
 		loss.prox_prim_var(prim_loss, dual_loss, w, gamma);
 
-		/// update primal_reg variables
+		// update primal_reg variables
 		if (n_reg > 0) {
 			primal_reg.copy(dual_reg);
 			primal_reg.scal(-(1.0) / gamma);
@@ -3534,11 +3443,11 @@ void LinADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFuncti
 			reg.prox_split(primal_reg, lambda / gamma);
 		}
 
-		/// update w
+		// update w
 		loss.compute_new_prim(w, prim_loss, dual_loss, gamma, param.delta);
 		update_multipliers_LinADMM(w, primal_reg, dual_reg, gamma, param.delta);
 
-		/// update  multipliers
+		// update  multipliers
 		if (n_reg > 0) {
 			dual_reg.addVecToCols(w, -gamma);
 			dual_reg.add_direct(primal_reg, gamma);
@@ -3546,7 +3455,7 @@ void LinADMM(const SplittingFunction<T, Matrix<T> >& loss, const SplittingFuncti
 		loss.add_mult_design_matrix(w, dual_loss, -gamma);
 		dual_loss.add(prim_loss, gamma);
 
-		/// stopping criterion
+		// stopping criterion
 		if ((it % it0) == 0) {
 			if (it > 0 && (old_los - los) / old_los < param.tol) break;
 			old_los = los;
@@ -3845,7 +3754,7 @@ void solver_aux2(const Matrix<T>& X, const Matrix<T>& alpha0,
 	}
 }
 
-/// AbstractMatrixB is basically either SpMatrix or Matrix
+// AbstractMatrixB is basically either SpMatrix or Matrix
 template <typename T>
 void solver(const Matrix<T>& X, const AbstractMatrixB<T>& D, const Matrix<T>& alpha0,
 	Matrix<T>& alpha, const ParamFISTA<T>& param1, Matrix<T>& optim_info,
@@ -3944,7 +3853,7 @@ void solver(const Matrix<T>& X, const AbstractMatrixB<T>& D, const Matrix<T>& al
 			delete[](losses);
 			delete[](regularizers);
 		} else {
-			/// (loss not for matrices and regul for matrices) or CUR
+			// (loss not for matrices and regul for matrices) or CUR
 			Loss<T, Matrix<T>, Matrix<T> >* loss;
 			Regularizer<T, Matrix<T> >* regularizer;
 			switch (param.loss) {
@@ -4039,7 +3948,7 @@ void PROX(const Matrix<T>& alpha0,
 		delete[](regularizers);
 
 	} else {
-		/// regul for matrices
+		// regul for matrices
 		if (param.eval)
 			val_loss.resize(1);
 		Regularizer<T, Matrix<T> >* regularizer;
@@ -4111,4 +4020,3 @@ void EvalGraphPath(const Matrix<T>& alpha0,
 	}
 };
 }
-#endif

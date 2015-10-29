@@ -1,10 +1,9 @@
-#ifndef SPAMS_H
-#define SPAMS_H
+#pragma once
 
 #ifdef _WIN32
 #define random rand
 #define srandom srand
-#ifdef CYGWIN
+#ifdef __CYGWIN__
 // the gcc compiler of cygwin has some defines that conflicts with spams,
 // But we preferably use mingw
 #include <fstream>
@@ -22,14 +21,14 @@ typedef int int32_t;
 #endif
 #endif
 
+#include <iostream>
 #include "dicts.h"
 #include "fista.h"
-#include "decomp.h"
+//#include "decomp.h"
 #include "linalg.h"
 #include "lsqsplx.h"
 #include "arch.h"
-#include "cblas_alt_template.h"
-#include <iostream>
+//#include "cblas_alt_template.h"
 /* from linalg */
 
 template<typename T> void _sort(Vector<T> *v, bool mode) throw(const char *)
@@ -605,7 +604,7 @@ Matrix<T> *_fistaFlat(Matrix<T> *X, AbstractMatrixB<T> *D, Matrix<T> *alpha0,
 	if (param.num_threads == -1) {
 		param.num_threads = 1;
 #ifdef _OPENMP
-		param.num_threads =  MIN(MAX_THREADS,omp_get_num_procs());
+		param.num_threads = MIN(MAX_THREADS, omp_get_num_procs());
 #endif
 	}
 	if (param.regul == GRAPH || param.regul == GRAPHMULT)
@@ -750,7 +749,7 @@ Matrix<T> *_fistaTree(
 	if (param.num_threads == -1) {
 		param.num_threads = 1;
 #ifdef _OPENMP
-		param.num_threads =  MIN(MAX_THREADS,omp_get_num_procs());
+		param.num_threads = MIN(MAX_THREADS, omp_get_num_procs());
 #endif
 	}
 
@@ -919,7 +918,7 @@ Matrix<T> *_fistaGraph(
 	if (param.num_threads == -1) {
 		param.num_threads = 1;
 #ifdef _OPENMP
-		param.num_threads =  MIN(MAX_THREADS,omp_get_num_procs());
+		param.num_threads = MIN(MAX_THREADS, omp_get_num_procs());
 #endif
 	}
 
@@ -991,7 +990,7 @@ Vector<T> *_proximalFlat(Matrix<T> *alpha0, Matrix<T> *alpha,
 	if (param.num_threads == -1) {
 		param.num_threads = 1;
 #ifdef _OPENMP
-		param.num_threads =  MIN(MAX_THREADS,omp_get_num_procs());
+		param.num_threads = MIN(MAX_THREADS, omp_get_num_procs());
 #endif
 	}
 	if (groups->n() == 0) { // groups is not given
@@ -1047,7 +1046,7 @@ Vector<T> *_proximalTree(Matrix<T> *alpha0, Matrix<T> *alpha, // tree
 	if (param.num_threads == -1) {
 		param.num_threads = 1;
 #ifdef _OPENMP
-		param.num_threads =  MIN(MAX_THREADS,omp_get_num_procs());
+		param.num_threads = MIN(MAX_THREADS, omp_get_num_procs());
 #endif
 	}
 	int pAlpha = alpha0->m();
@@ -1134,7 +1133,7 @@ Vector<T> *_proximalGraph(Matrix<T> *alpha0, Matrix<T> *alpha, // graph
 	if (param.num_threads == -1) {
 		param.num_threads = 1;
 #ifdef _OPENMP
-		param.num_threads =  MIN(MAX_THREADS,omp_get_num_procs());
+		param.num_threads = MIN(MAX_THREADS, omp_get_num_procs());
 #endif
 	}
 	int pAlpha = alpha0->m();
@@ -1384,19 +1383,19 @@ SpMatrix<T> *_decompSimplex(Matrix<T>* X, Matrix<T>* Z, bool computeXtX, int num
 /* end  dictLearn */
 /* utility : equivalent of matlab im2col in 'sliding' mode */
 /*
-   input:
-   A : image as matrix of mm lines of nn values (for rgb nn = 3 * dimx)
-   RGB : true if image is true color (3 values per pixel)
-   m,n : size of chunks (typically 8x8)
-   output:
-   B : matrix of all possible mxn blocs, size = m*n lines of (mm - m + 1) * (nn -n + 1) values;
-   stored by columns.
-   */
+input:
+A : image as matrix of mm lines of nn values (for rgb nn = 3 * dimx)
+RGB : true if image is true color (3 values per pixel)
+m,n : size of chunks (typically 8x8)
+output:
+B : matrix of all possible mxn blocs, size = m*n lines of (mm - m + 1) * (nn -n + 1) values;
+stored by columns.
+*/
 template<typename T>
 void _im2col_sliding(Matrix<T>  *A, Matrix<T>  *B, int m, int n, bool RGB)  throw(const char *)
 {
 	/* if RGB is true A has 3*n columns, R G B columns are consecutives
-	 */
+	*/
 	int mm = A->m();
 	int nn = A->n();
 	int nn1 = RGB ? nn / 3 : nn;
@@ -1421,7 +1420,4 @@ void _im2col_sliding(Matrix<T>  *A, Matrix<T>  *B, int m, int n, bool RGB)  thro
 			}
 		}
 	}
-
 }
-
-#endif /* SPAMS_H */

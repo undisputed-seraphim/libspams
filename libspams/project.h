@@ -1,3 +1,4 @@
+#pragma once
 /* Software SPAMS v2.1 - Copyright 2009-2011 Julien Mairal
  *
  * This file is part of SPAMS.
@@ -16,9 +17,6 @@
  * along with SPAMS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROJECT_H
-#define PROJECT_H
-
 #include <limits>
 #include "linalg.h"
 
@@ -26,7 +24,6 @@
 
 //#define VERBB
 //#define VERB2
-
 
 int num_relabels;
 int num_pushes;
@@ -678,7 +675,7 @@ void inline MaxFlow<T>::discharge(const list_int& component, const int u, const 
 #ifdef VERBB
 				cerr << "Send " << delta << " from " << u << " to " << v << endl;
 #endif
-				/// add v to the list of active nodes
+				// add v to the list of active nodes
 				if (!_active[v] && v != _t) {
 					_active_nodes[_labels[v]]->push_back(v);
 					_active[v] = true;
@@ -693,7 +690,7 @@ void inline MaxFlow<T>::discharge(const list_int& component, const int u, const 
 	}
 	num_relabels++;
 	if (_excess[u] > EPSILON_MAXFLOW) {
-		/// relabel: 
+		// relabel: 
 		if (gap_heuristic) {
 			_all_nodes[_labels[u]]--;
 			if (_all_nodes[_labels[u]] == 0) {
@@ -813,7 +810,7 @@ void inline MaxFlow<T>::init_split_variables(SpMatrix<T>& splitted_w, const int 
 	for (int i = 0; i < Ng; ++i) {
 		nzmax += tab_list[i]->size();
 	}
-	/// assumes memory is not an issue
+	// assumes memory is not an issue
 	splitted_w.resize(Nv, Ng, nzmax);
 	INTM* pB = splitted_w.pB();
 	INTM* r = splitted_w.r();
@@ -1169,7 +1166,7 @@ inline void MaxFlow<T>::init_split_variables_aux(const int i, int& current,
 	if (i != _s) {
 		Vector<T> tmp(Nv);
 		tmp.setZeros();
-		/// rempli colonne current de splitted_w avec les enfants + propres variables
+		// rempli colonne current de splitted_w avec les enfants + propres variables
 		for (int j = 0; j < _num_edges[i]; ++j) {
 			const int child = children[j];
 			if (child != _s && child != _t && capacity[j] > 0) {
@@ -1228,7 +1225,7 @@ template <typename T>
 void inline MaxFlow<T>::extractConnexComponents(
 	std::list< list_int* >& connex_components)
 {
-	/// extract all the connex components for the initialization
+	// extract all the connex components for the initialization
 	for (int i = 0; i < _N; ++i) _seen[i] = false;
 	_seen[_s] = true;
 	_seen[_t] = true;
@@ -1306,10 +1303,10 @@ T inline MaxFlow<T>::project(const list_int& component,
 	const T* variables_in, T* variables_out, T* work,
 	const int Ng)
 {
-	/// project on the component, project, update the capacity,
-	/// update the preflow,  update variables_out,
-	/// update labels 
-	/// return the maximum value of the potential flow
+	// project on the component, project, update the capacity,
+	// update the preflow,  update variables_out,
+	// update labels 
+	// return the maximum value of the potential flow
 	T lambda = 0;
 	int num_var = 0;
 	for (const_iterator_int it = component.begin();
@@ -1463,7 +1460,7 @@ T inline MaxFlow<T>::project_box(const list_int& component,
 template <typename T>
 T inline MaxFlow<T>::flow_component(const list_int& component, const int Ng)
 {
-	/// do relabelling and update list of active nodes
+	// do relabelling and update list of active nodes
 	T max_flow = 0;
 	for (const_iterator_int it = component.begin();
 		it != component.end(); ++it) {
@@ -1471,7 +1468,7 @@ T inline MaxFlow<T>::flow_component(const list_int& component, const int Ng)
 			max_flow += _flow[_pr_node[*it]];
 		}
 	}
-	/// return the amount of flow
+	// return the amount of flow
 	return max_flow;
 };
 
@@ -1485,7 +1482,7 @@ template <typename T>
 bool inline MaxFlow<T>::splitComponent(const list_int& component,
 	std::list< list_int* >& connex_components, const int Ng, bool* positive, const bool addpos)
 {
-	/// cut the component into connex components, and add them to connex_components
+	// cut the component into connex components, and add them to connex_components
 	for (const_iterator_int it = component.begin();
 		it != component.end(); ++it) {
 		_seen[*it] = false;
@@ -1497,11 +1494,11 @@ bool inline MaxFlow<T>::splitComponent(const list_int& component,
 	positive[_s] = true;
 	positive[_t] = true;
 	list_int tmp;
-	/// make the "positive part of the graph"
+	// make the "positive part of the graph"
 	for (const_iterator_int it = component.begin();
 		it != component.end(); ++it) {
 		if (!positive[*it] && _excess[*it] > EPSILON_MAXFLOW) {
-			/// start new component, track from where the excess can come
+			// start new component, track from where the excess can come
 			tmp.push_back(*it);
 			positive[*it] = true;
 			while (!tmp.empty()) {
@@ -1521,7 +1518,7 @@ bool inline MaxFlow<T>::splitComponent(const list_int& component,
 			}
 		}
 	}
-	/// update from the source
+	// update from the source
 	/*tmp.push_back(_s);
 	  while (!tmp.empty()) {
 	  int node=tmp.front();
@@ -1539,12 +1536,12 @@ bool inline MaxFlow<T>::splitComponent(const list_int& component,
 	  }
 	  }*/
 
-	/// extract the connex components of the positive part
+	// extract the connex components of the positive part
 	for (const_iterator_int it = component.begin();
 		it != component.end(); ++it) {
 		if (positive[*it] && !_seen[*it]) {
 			list_int* new_component = new list_int();
-			/// start new component, track from where the excess can come
+			// start new component, track from where the excess can come
 			tmp.push_back(*it);
 			_seen[*it] = true;
 			while (!tmp.empty()) {
@@ -1572,12 +1569,12 @@ bool inline MaxFlow<T>::splitComponent(const list_int& component,
 			++num_comp;
 		}
 	}
-	/// extract the connex components of the negative part
+	// extract the connex components of the negative part
 	for (const_iterator_int it = component.begin();
 		it != component.end(); ++it) {
 		if (!positive[*it] && !_seen[*it]) {
 			list_int* new_component = new list_int();
-			/// start new component, track from where the excess can come
+			// start new component, track from where the excess can come
 			tmp.push_back(*it);
 			_seen[*it] = true;
 			while (!tmp.empty()) {
@@ -1631,7 +1628,7 @@ void inline MaxFlow<T>::perform_maxflow_component(const list_int& component)
 	tglobal3.start();
 	int size_component = component.size();
 	const int max_label = size_component + 2;
-	/// discharge the source and relabel
+	// discharge the source and relabel
 	this->component_relabelling(component, max_label, true);
 #ifdef VERBB
 	PRINT_I(_current_max_label)
@@ -1639,7 +1636,7 @@ void inline MaxFlow<T>::perform_maxflow_component(const list_int& component)
 	this->print_component(component);
 	stop();
 #endif
-	/// perform max flow
+	// perform max flow
 	int counter = 1;
 
 
@@ -1718,7 +1715,7 @@ void inline MaxFlow<T>::component_relabelling(const list_int& component,
 			_all_nodes[i] = 0;
 	_current_max_label = 0;
 	num_global_relabels++;
-	/// relabel component, with warm restart
+	// relabel component, with warm restart
 	list_int nodes;
 	_labels[_t] = 0;
 	_all_nodes[0]++;
@@ -1748,7 +1745,7 @@ void inline MaxFlow<T>::component_relabelling(const list_int& component,
 				_all_nodes[1]++;
 			_seen[*it] = true;
 		} else {
-			/// discharge source
+			// discharge source
 			if (first_child == _s && force) {
 				const T delta = _capacity[_reverse_address[ind]] - _flow[_reverse_address[ind]];
 				if (delta > 0) {
@@ -1872,7 +1869,7 @@ void inline MaxFlow<T>::set_capacities_groups(const list_int& component,
 template <typename T>
 void inline MaxFlow<T>::restore_capacities(const list_int& component)
 {
-	/// relabel component, with warm restart
+	// relabel component, with warm restart
 	list_int nodes;
 	_seen[_t] = true;
 	_seen[_s] = true;
@@ -2230,7 +2227,7 @@ void inline Graph<T>::proximal_operator(const T* variables_in, T* variables_out,
 			tproj.stop();
 			++num;
 			if (budget > EPSILON_MAXFLOW && fusion) {
-				/// At this point, the vector _maxflow->_seen is set to true.
+				// At this point, the vector _maxflow->_seen is set to true.
 				tcap.start();
 				if (cap_heuristic)
 					_maxflow->update_capacities(*component, work);
@@ -2246,7 +2243,7 @@ void inline Graph<T>::proximal_operator(const T* variables_in, T* variables_out,
 				_maxflow->restore_capacities(*component);
 				T flow = _maxflow->flow_component(*component, _Ng);
 				if (abs<T>(budget - flow) / budget > EPSILON_MAXFLOW) {
-					/// At this point, the vector _maxflow->_seen is set to true for all nodes not in component
+					// At this point, the vector _maxflow->_seen is set to true for all nodes not in component
 					tsplit.start();
 					if (!_maxflow->splitComponent(*component, connex_components, _Ng, positive, true)) {
 						flow_missed += abs<T>(budget - flow);
@@ -3107,7 +3104,7 @@ Int inline MinCostFlow<Int>::reduced_cost(const int node, const int child, const
 		_cost[pointer] + _prices[node] - _prices[child];
 };
 
-/// the function assumes the graph is a DAG
+// the function assumes the graph is a DAG
 template <typename Int>
 bool inline MinCostFlow<Int>::topological_sort(const bool admissible, bool* admiss_node, Int* reduced_costs)
 {
@@ -3434,7 +3431,7 @@ void GraphPath<T, Int>::proximal_l0(T* variables, const T lambda)
 	//     _min_cost_flow->print_graph();
 
 	for (int i = 0; i < _n; ++i) {
-		/// should check significant flow or not
+		// should check significant flow or not
 		variables[i] = _min_cost_flow->get_flow(i, 0) > 0 ? variables[i] : 0;
 	}
 
@@ -3517,5 +3514,3 @@ void GraphPath<T, Int>::scale_costs(const T lambda)
 	//   cerr << "sf " << _sf << endl;
 	_min_cost_flow->scale_costs(_sf*lambda);
 }
-
-#endif

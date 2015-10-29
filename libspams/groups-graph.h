@@ -1,5 +1,5 @@
-#ifndef __MYGRAPH_H
-#define __MYGRAPH_H
+#pragma once
+
 #include <stdlib.h>
 #include <sys/types.h>
 #include <vector>
@@ -646,5 +646,3 @@ int _treeOfGroupStruct(std::vector<StructNodeElem<T> *> *gstruct, int **pperm, i
 	del_gstruct(ngstruct);
 	return nb_vars;
 }
-
-#endif /* __MYGRAPH_H */

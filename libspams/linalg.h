@@ -1,3 +1,4 @@
+#pragma once
 /* Software SPAMS v2.1 - Copyright 2009-2011 Julien Mairal
  *
  * This file is part of SPAMS.
@@ -25,9 +26,6 @@
  *                File linalg.h
  * \brief Contains Matrix, Vector classes */
 
-#ifndef LINALG_H
-#define LINALG_H
-
 #include "misc.h"
 #include "cblas_alt_template.h"
 #include <fstream>
@@ -39,7 +37,7 @@
 #include <vector>
 
 #include <list>
-#include "utils.h"
+//#include "utils.h"
 #include "list.h"
 
 typedef List<int> list_int;
@@ -201,7 +199,7 @@ public:
 	virtual void extract_rawCol(const INTM i, T* Xi) const = 0;
 	// extract diagonal
 	virtual void diag(Vector<T>& diag) const = 0;
-	/// extract X(index1,index2)
+	// extract X(index1,index2)
 	virtual inline T operator()(const INTM index1, const INTM index2) const = 0;
 	virtual ~AbstractMatrix() {};
 };
@@ -747,7 +745,7 @@ public:
 	inline void sort(Vector<T>& out, const bool mode) const;
 	// sort the vector
 	inline void sort(const bool mode);
-	/// sort the vector
+	// sort the vector
 	inline void sort2(Vector<T>& out, Vector<INTM>& key, const bool mode) const;
 	// sort the vector
 	inline void sort2(Vector<INTM>& key, const bool mode);
@@ -760,8 +758,6 @@ public:
 	inline void toSparse(SpVector<T>& vec) const;
 	// extract the rows of a matrix corresponding to a binary mask
 	inline void copyMask(Vector<T>& out, Vector<bool>& mask) const;
-
-
 
 private:
 	// = operator, 
@@ -6152,6 +6148,3 @@ template <typename T> void AbstractMatrixB<T>::ridgeCG(const Matrix<T>& mb, cons
 		this->ridgeCG(b, delta, x, lambda, tol, itermax);
 	}
 }
-
-
-#endif

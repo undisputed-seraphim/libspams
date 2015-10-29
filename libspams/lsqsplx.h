@@ -1,3 +1,4 @@
+#pragma once
 /*!
  * Software SPAMS v2.5 - Copyright 2009-2014 Julien Mairal
  *
@@ -27,9 +28,6 @@
  * \brief Contains least squares problem with simplex constraint algorithms
  * It requires the toolbox linalg */
 
-#ifndef LSQSPLX_H
-#define LSQSPLX_H
-
 #include "utils.h"
 #include "projsplx.h"
 
@@ -37,7 +35,7 @@
  * FISTA: Fast Iterative Shrinkage-Thresholding Algorithm with backtracking
  * **************************/
 
-/// "For" version
+// "For" version
 
 template <typename T>
 void gpFISTAFor(const Matrix<T>& A, const Vector<T>& b, Vector<T>& xCurr, const T L0 = 1.0, const T eta = 1.0 / 0.7, const int I = 50, const bool warm = false)
@@ -349,8 +347,8 @@ void activeSet(const Matrix<T>& M, const Vector<T>& b, Vector<T>& xCurr, const T
 	return;
 }
 
-/// Active-Set Method with direct inversion, with update(matrix inversion lemma)
-/// Memorize M.T* M + lam2sq = G
+// Active-Set Method with direct inversion, with update(matrix inversion lemma)
+// Memorize M.T* M + lam2sq = G
 template <typename T>
 void activeSetS(const Matrix<T>& M, const Vector<T>& b, Vector<T>& xCurr, const Matrix<T>& G, const T lambda2 = 1e-5, const T epsilon = 1e-5, bool warm = false)
 {
@@ -600,5 +598,3 @@ void activeSetS(const Matrix<T>& M, const Vector<T>& b, Vector<T>& xCurr, const 
 	}
 	return;
 }
-
-#endif

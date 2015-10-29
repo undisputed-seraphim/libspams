@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CB2C9E5A-6779-4CF0-9BE1-BD6D18AE598B}</ProjectGuid>
+    <ProjectGuid>{45BE37BE-1D51-44AF-8D73-41F86416F0FD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libspams</RootNamespace>
   </PropertyGroup>
@@ -38,16 +38,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>928384b7</NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files\MATLAB\MATLAB Production Server\R2015a\extern\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\MATLAB\MATLAB Production Server\R2015a\extern\lib\win64\microsoft;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Program Files\MATLAB\MATLAB Production Server\R2015a\extern\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\MATLAB\MATLAB Production Server\R2015a\extern\lib\win64\microsoft;$(LibraryPath)</LibraryPath>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <NuGetPackageImportStamp>2cbcc53a</NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -55,7 +48,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -70,7 +63,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,8 +86,6 @@
     <ClInclude Include="linalg.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="lsqsplx.h" />
-    <ClInclude Include="mexgrouputils.h" />
-    <ClInclude Include="mexutils.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="project.h" />
     <ClInclude Include="projsplx.h" />
@@ -102,6 +93,22 @@
     <ClInclude Include="surrogate.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cblas_defvar.cpp" />
+    <ClCompile Include="fista.cpp" />
+    <ClCompile Include="utils.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets" Condition="Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets'))" />
+  </Target>
 </Project>

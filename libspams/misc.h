@@ -1,3 +1,4 @@
+#pragma once
 /*!
  * \file
  *                toolbox Linalg
@@ -7,9 +8,6 @@
  *
  *                File misc.h
  * \brief Contains miscellaneous functions */
-
-#ifndef MISC_H
-#define MISC_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,34 +21,34 @@
 
 using namespace std;
 
-/// a useful debugging function
+// a useful debugging function
 static inline void stop();
-/// seed for random number generation
+// seed for random number generation
 static int seed = 0;
-/// first random number generator from Numerical Recipe
+// first random number generator from Numerical Recipe
 template <typename T> static inline T ran1();
-/// standard random number generator 
+// standard random number generator 
 template <typename T> static inline T ran1b();
-/// random sampling from the normal distribution
+// random sampling from the normal distribution
 template <typename T> static inline T normalDistrib();
-/// reorganize a sparse table between indices beg and end,
-/// using quicksort
+// reorganize a sparse table between indices beg and end,
+// using quicksort
 template <typename T, typename I>
 static void sort(I* irOut, T* prOut, I beg, I end);
 template <typename T, typename I>
 static void quick_sort(I* irOut, T* prOut, const I beg, const I end, const bool incr);
-/// template version of the power function
+// template version of the power function
 template <typename T>
 T power(const T x, const T y);
-/// template version of the fabs function
+// template version of the fabs function
 template <typename T>
 T abs(const T x);
-/// template version of the fabs function
+// template version of the fabs function
 template <typename T>
 T sqr(const T x);
 template <typename T>
 T sqr_alt(const T x);
-/// template version of the fabs function
+// template version of the fabs function
 template <typename T>
 T sqr(const int x)
 {
@@ -62,7 +60,7 @@ T exp_alt(const T x);
 template <typename T>
 T log_alt(const T x);
 
-/// a useful debugging function
+// a useful debugging function
 /*static inline void stop() {
    cout << "Appuyez sur entrée pour continuer...";
    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
@@ -73,7 +71,7 @@ static inline void stop()
 	getchar();
 }
 
-/// first random number generator from Numerical Recipe
+// first random number generator from Numerical Recipe
 template <typename T> static inline T ran1()
 {
 	const int IA = 16807, IM = 2147483647, IQ = 127773, IR = 2836, NTAB = 32;
@@ -105,13 +103,13 @@ template <typename T> static inline T ran1()
 	else return temp;
 };
 
-/// standard random number generator 
+// standard random number generator 
 template <typename T> T ran1b()
 {
 	return static_cast<T>(rand()) / RAND_MAX;
 }
 
-/// random sampling from the normal distribution
+// random sampling from the normal distribution
 template <typename T>
 static inline T normalDistrib()
 {
@@ -135,8 +133,8 @@ static inline T normalDistrib()
 	}
 };
 
-/// reorganize a sparse table between indices beg and end,
-/// using quicksort
+// reorganize a sparse table between indices beg and end,
+// using quicksort
 template <typename T, typename I>
 static void sort(I* irOut, T* prOut, I beg, I end)
 {
@@ -233,7 +231,7 @@ static void quick_sort(T* prOut, const I beg, const I end, const bool incr)
 }
 
 
-/// template version of the power function
+// template version of the power function
 template <>
 inline double power(const double x, const double y)
 {
@@ -245,7 +243,7 @@ inline float power(const float x, const float y)
 	return powf(x, y);
 };
 
-/// template version of the fabs function
+// template version of the fabs function
 template <>
 inline double abs(const double x)
 {
@@ -257,7 +255,7 @@ inline float abs(const float x)
 	return fabsf(x);
 };
 
-/// template version of the fabs function
+// template version of the fabs function
 template <>
 inline double sqr(const double x)
 {
@@ -324,5 +322,3 @@ struct Triplet
 	T2 z;
 	T3 s;
 };
-
-#endif

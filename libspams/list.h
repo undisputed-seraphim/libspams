@@ -1,4 +1,4 @@
-
+#pragma once
 /* Software SPAMS v2.1 - Copyright 2009-2011 Julien Mairal
  *
  * This file is part of SPAMS.
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SPAMS.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef LIST_H
-#define LIST_H
 
 template <typename T> class Element
 {
@@ -269,5 +266,3 @@ private:
 	int _last;
 	int _size;
 };
-
-#endif

@@ -1,4 +1,4 @@
-
+#pragma once
 /* Software SPAMS v2.1 - Copyright 2009-2011 Julien Mairal
  *
  * This file is part of SPAMS.
@@ -29,67 +29,12 @@
  * \brief Contains dictionary learning algorithms
  * It requires the toolbox decomp */
 
-#ifndef DICTS_H
-#define DICTS_H
-
 #include "decomp.h"
 #include "fista.h"
 
 char buffer_string[50];
 enum constraint_type_D { L2, L1L2, L1L2FL, L1L2MU };
 enum mode_compute { AUTO, PARAM1, PARAM2, PARAM3 };
-
-struct regul_def
-{
-	const char *name;
-	FISTA::regul_t regul;
-} regul_table[] = {
-	{"l0", FISTA::L0},
-	{"l1", FISTA::L1},
-	{"l2", FISTA::L2},
-	{"linf", FISTA::LINF},
-	{"none", FISTA::NONE},
-	{"elastic-net", FISTA::ELASTICNET},
-	{"fused-lasso", FISTA::FUSEDLASSO},
-	{"graph", FISTA::GRAPH},
-	{"graph-ridge", FISTA::GRAPH_RIDGE},
-	{"tree-l0", FISTA::TREE_L0},
-	{"tree-l2", FISTA::TREE_L2},
-	{"tree-linf", FISTA::TREE_LINF},
-};
-#define NBREGUL sizeof(regul_table)/sizeof(struct regul_def)
-
-FISTA::regul_t regul_from_string(const char* regul)
-{
-	for (unsigned int i = 0; i < NBREGUL; i++)
-		if (strcmp(regul, regul_table[i].name) == 0) return regul_table[i].regul;
-	return FISTA::INCORRECT_REG;
-}
-void regul_error(char *buffer, int bufsize, const char *message)
-{
-	int n1 = strlen(message);
-	int size = n1;
-	if (n1 < bufsize) {
-		// calculate size
-		for (unsigned int i = 0; i < NBREGUL; i++)
-			size += strlen(regul_table[i].name) + 1;
-	}
-	if (size >= bufsize) {
-		n1 = bufsize - 1;
-		strncpy(buffer, "Invalid regularization\n", n1);
-	} else {
-		strncpy(buffer, message, n1);
-		for (unsigned int i = 0; i < NBREGUL; i++) {
-			int k = strlen(regul_table[i].name);
-			strncpy(&buffer[n1], regul_table[i].name, k);
-			buffer[n1 + k] = ' ';
-			n1 += k + 1;
-		}
-		buffer[n1 - 1] = '\n';
-	}
-	buffer[n1] = 0;
-	return;
-}
 
 template <typename T> struct ParamDictLearn
 {
@@ -189,20 +134,20 @@ public:
 template <typename T> class Trainer
 {
 public:
-	/// Empty constructor
+	// Empty constructor
 	Trainer();
-	/// Constructor with data
+	// Constructor with data
 	Trainer(const int k, const int batchsize = 256,
 		const int NUM_THREADS = -1);
-	/// Constructor with initial dictionary
+	// Constructor with initial dictionary
 	Trainer(const Matrix<T>& D, const int batchsize = 256,
 		const int NUM_THREADS = -1);
-	/// Constructor with existing structure
+	// Constructor with existing structure
 	Trainer(const Matrix<T>& A, const Matrix<T>& B, const Matrix<T>& D,
 		const int itercount, const int batchsize,
 		const int NUM_THREADS);
 
-	/// train or retrain using the matrix X
+	// train or retrain using the matrix X
 	/* train with graph or tree */
 	void train(const Data<T>& X, const ParamDictLearn<T>& param);
 	void train_fista(const Data<T>& X, const ParamDictLearn<T>& param,
@@ -210,19 +155,19 @@ public:
 		const TreeStruct<T>* tree_st = NULL);
 	void trainOffline(const Data<T>& X, const ParamDictLearn<T>& param);
 
-	/// Accessors
+	// Accessors
 	void getA(Matrix<T>& A) const { A.copy(_A); };
 	void getB(Matrix<T>& B) const { B.copy(_B); };
 	void getD(Matrix<T>& D) const { D.copy(_D); };
 	int getIter() const { return _itercount; };
 
 private:
-	/// Forbid lazy copies
+	// Forbid lazy copies
 	explicit Trainer<T>(const Trainer<T>& trainer);
-	/// Forbid lazy copies
+	// Forbid lazy copies
 	Trainer<T>& operator=(const Trainer<T>& trainer);
 
-	/// clean the dictionary
+	// clean the dictionary
 	void cleanDict(const Data<T>& X, Matrix<T>& G,
 		const bool posD = false,
 		const constraint_type_D modeD = L2, const T gamma1 = 0,
@@ -230,7 +175,7 @@ private:
 		const T maxCorrel =
 		0.999999);
 
-	/// clean the dictionary
+	// clean the dictionary
 	void cleanDict(Matrix<T>& G);
 
 	Matrix<T> _A;
@@ -243,7 +188,7 @@ private:
 	int _NUM_THREADS;
 };
 
-/// Empty constructor
+// Empty constructor
 template <typename T> Trainer<T>::Trainer() : _k(0), _initialDict(false),
 _itercount(0), _batchsize(256)
 {
@@ -254,7 +199,7 @@ _itercount(0), _batchsize(256)
 	_batchsize = floor(_batchsize*(_NUM_THREADS + 1) / 2);
 };
 
-/// Constructor with data
+// Constructor with data
 template <typename T> Trainer<T>::Trainer(const int k, const
 	int batchsize, const int NUM_THREADS) : _k(k),
 	_initialDict(false), _itercount(0), _batchsize(batchsize),
@@ -268,7 +213,7 @@ template <typename T> Trainer<T>::Trainer(const int k, const
 	}
 };
 
-/// Constructor with initial dictionary
+// Constructor with initial dictionary
 template <typename T> Trainer<T>::Trainer(const Matrix<T>& D,
 	const int batchsize, const int NUM_THREADS) : _k(D.n()),
 	_initialDict(true), _itercount(0), _batchsize(batchsize),
@@ -285,7 +230,7 @@ template <typename T> Trainer<T>::Trainer(const Matrix<T>& D,
 	}
 }
 
-/// Constructor with existing structure
+// Constructor with existing structure
 template <typename T> Trainer<T>::Trainer(const Matrix<T>& A, const Matrix<T>&
 	B, const Matrix<T>& D, const int itercount, const int batchsize,
 	const int NUM_THREADS) : _k(D.n()), _initialDict(true), _itercount(itercount),
@@ -322,7 +267,7 @@ void Trainer<T>::cleanDict(const Data<T>& X, Matrix<T>& G,
 		for (int j = i; j < k; ++j) {
 			if ((j > i && abs(pr_G[i*k + j]) / sqrt(pr_G[i*k + i] * pr_G[j*k + j]) > maxCorrel) ||
 				(j == i && abs(pr_G[i*k + j]) < 1e-4)) {
-				/// remove element j and replace it by a random element of X
+				// remove element j and replace it by a random element of X
 				const int ind = random() % M;
 				Vector<T> d, g;
 				_D.refCol(j, d);
@@ -679,8 +624,8 @@ void Trainer<T>::train(const Data<T>& X, const ParamDictLearn<T>& param)
 			}
 		} else {
 
-			/// Dictionary Update
-			/// Check the epoch parity
+			// Dictionary Update
+			// Check the epoch parity
 			int epoch = (((i + 1) % M)*batchsize) / M;
 			if ((even && ((epoch % 2) == 1)) || (!even && ((epoch % 2) == 0))) {
 				Aodd.copy(Aeven);
@@ -1141,8 +1086,8 @@ void Trainer<T>::train_fista(const Data<T>& X, const ParamDictLearn<T>& param,
 			}
 		} else {
 
-			/// Dictionary Update
-			/// Check the epoch parity
+			// Dictionary Update
+			// Check the epoch parity
 			int epoch = (((i + 1) % M)*batchsize) / M;
 			if ((even && ((epoch % 2) == 1)) || (!even && ((epoch % 2) == 0))) {
 				Aodd.copy(Aeven);
@@ -1460,8 +1405,3 @@ void Trainer<T>::trainOffline(const Data<T>& X,
 	delete[](BT);
 	delete[](coeffsoldT);
 }
-
-
-
-#endif
-

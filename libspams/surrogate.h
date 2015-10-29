@@ -1,3 +1,4 @@
+#pragma once
 /* Software SPAMS v2.4 - Copyright 2009-2013 Julien Mairal
  *
  * This file is part of SPAMS.
@@ -15,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SPAMS.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef SURROGATE_H
-#define SURROGATE_H
 
 #include "fista.h"
 
@@ -105,7 +103,7 @@ public:
 	};
 	virtual ~SmoothFunction() {};
 
-	/// evaluate the function value on the full dataset
+	// evaluate the function value on the full dataset
 	inline T eval(const Vector<T>& input) const
 	{
 		typename U::col spw;
@@ -257,7 +255,7 @@ public:
 	virtual T eval_simple(const T y, const T s) const = 0;
 	virtual T gradient_simple(const T y, const T s) const = 0;
 
-	/// compute a global constant L
+	// compute a global constant L
 	inline T genericL() const { return _genericL; };
 
 	virtual void refData(typename U::col& output)
@@ -270,7 +268,7 @@ public:
 		const int ind = _current_batch[0];
 		return (*_y)[ind];
 	}
-	/// subsample the dataset
+	// subsample the dataset
 	virtual void subsample(const int n)
 	{
 		_save_n = _n;
@@ -278,7 +276,7 @@ public:
 		_n = MIN(n, _n);
 		_num_batches = MAX(_n / _nbatches, 1);
 	};
-	/// restore the full dataset
+	// restore the full dataset
 	virtual void un_subsample()
 	{
 		_n = _save_n;
@@ -300,7 +298,7 @@ public:
 	int inline num_batches() const { return _num_batches; };
 	int inline num_batch() const { return _num_batch; };
 
-	/// choose a new sample
+	// choose a new sample
 	void inline choose_random_batch()
 	{
 		if (_random) {
@@ -341,7 +339,7 @@ public:
 				stats[_num_batches - 1] += _L[(_num_batches - 1)*_nbatches + j];
 		}
 	};
-	/// compute the constant L for the current sample
+	// compute the constant L for the current sample
 	inline T sampleL() const
 	{
 		T rho_sample = 0;
@@ -516,7 +514,7 @@ public:
 	virtual int num_batches() const { return _function->num_batches(); };
 	virtual void setRandom(const bool random) { _function->setRandom(random); };
 
-	/// incremental part
+	// incremental part
 	virtual void update_incremental_surrogate(const Vector<T>& input)
 	{
 		const int num_batch = _function->choose_random_fixedbatch();
@@ -790,7 +788,7 @@ void StochasticSolver<T, U>::auto_parameters(const Vector<T>& w0, Vector<T>& w, 
 {
 	const int newn = this->n() / 20;
 	const int iters = ceil(static_cast<T>(this->n() / (20 * _minibatches)));
-	/// inspired from bottou's determineta0 function
+	// inspired from bottou's determineta0 function
 	T factor = 0.5;
 	T lo_t0 = _t0;
 	t0_to_eta();
@@ -1131,9 +1129,9 @@ void StochasticSmoothL1Solver<T>::solve(const Vector<T>& w0, Vector<T>& w, Vecto
 		s = _function->scal_grad(s);
 		s *= thrs2;
 
-		/// gradient is s*col
-		/// all pr_x corresponding to non-zeros grad have been updated
-		/// pr_z is updated except for the gradient
+		// gradient is s*col
+		// all pr_x corresponding to non-zeros grad have been updated
+		// pr_z is updated except for the gradient
 		counter = next_counter;
 		for (int i = 0; i < L; ++i) {
 			const int ind = static_cast<int>(r[i]);
@@ -1325,8 +1323,8 @@ void IncrementalSolver<T, U>::solve(const Vector<T>& w0, Vector<T>& w, const int
 	if (verbose && epochs > 0 && !warm_restart) {
 		cout << "Standard Incremental Solver" << endl;
 	}
-	/// strategy 0: do not change L
-	/// strategy 1: try to adjust L 
+	// strategy 0: do not change L
+	// strategy 1: try to adjust L 
 	Timer time;
 	time.start();
 	_logs.set(0);
@@ -1340,7 +1338,7 @@ void IncrementalSolver<T, U>::solve(const Vector<T>& w0, Vector<T>& w, const int
 	const int num_batches = _surrogate->num_batches();
 	if (strategy == 3) _surrogate->reset_diff();
 	if (epochs > 0) {
-		/// first epoch
+		// first epoch
 		_surrogate->setRandom(warm_restart);
 		_surrogate->setFirstPass(!warm_restart);
 		for (int j = 0; j < num_batches; ++j) {
@@ -1356,7 +1354,7 @@ void IncrementalSolver<T, U>::solve(const Vector<T>& w0, Vector<T>& w, const int
 		}
 		if (strategy == 3) _surrogate->reset_diff();
 
-		/// classical epochs
+		// classical epochs
 		_surrogate->setRandom(true);
 		_surrogate->setFirstPass(false);
 		for (int i = 1; i < epochs; ++i) {
@@ -1389,7 +1387,7 @@ template <typename T, typename U>
 void IncrementalSolver<T, U>::auto_parameters(const Vector<T>& w0, Vector<T>& w, const int strategy)
 {
 	const int newn = _surrogate->n() / 20;
-	/// inspired from bottou's determineta0 function
+	// inspired from bottou's determineta0 function
 	T factor = 0.5;
 	T lo_param = _surrogate->get_param();
 	_surrogate->subsample(newn);
@@ -1550,4 +1548,3 @@ void incrementalProximalSeq(const Vector<T>& y, const U& X, const Matrix<T>& w0M
 	delete(regul);
 	delete(function);
 };
-#endif
